@@ -4,7 +4,7 @@ icon: fas fa-info-circle
 order: 4
 ---
 
-This is mainly my hub of resources I've gathered over time in .txt files that I am slowly putting into a safe place outside of my computer and making them available to others. This site will host things including tutorials, my learnings, thougs and ideas as well as recipes and other random things I find worthy of sharing.
+This is mainly my hub of resources I've gathered over time in .txt files that I am slowly putting into a safe place outside of my computer and making them available to others. This site will host things including tutorials, my learnings, thoughts and ideas as well as recipes and other random things I find worthy of sharing.
 
 ## Important
 
