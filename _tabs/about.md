@@ -14,5 +14,6 @@ If you have a better way to do something or want to provide some additional info
 
 ### One of my favorite quotes.
 
-> Now listen up! Back in my day, we didn't have fancy tanks! We had sticks. Two sticks and a rock for the entire platoon! And we had to share the rock! You should consider yourself very lucky marines!
-> ~ Sgt. Major Avery Johnson (Halo 2)
+<blockquote>Now listen up! Back in my day, we didn't have fancy tanks! We had sticks. Two sticks and a rock for the entire platoon! And we had to share the rock! You should consider yourself very lucky marines!
+<span class="author"><i>~ Sgt. Major Avery Johnson (Halo 2)</i></span>
+</blockquote>
