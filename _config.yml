@@ -2,27 +2,38 @@ theme: jekyll-theme-chirpy
 baseurl: ''
 timezone: America/Chicago
 
-title: SilentGlasses
-tagline: My Humble Abode
+title: SilentGlasses        # the main title
+tagline: My Humble Abode    # it will display as the sub-title
+url: 'https://silentglasses.github.io/'
 
 github:
   username: SilentGlasses
 
 social:
   name: SilentGlasses
-  email: fcbsdhxfk@mozmail.com
+  email: fcbsdhxfk@mozmail.com             # change to your email address
+  links:
+    - https://github.com/SilentGlasses       # change to your github homepage
 
+# ↑ --------------------------
+
+# Prefer color scheme setting.
 theme_mode:  # [light|dark]
 
+# the avatar on sidebar, support local or CORS resources
 avatar: https://avatars.githubusercontent.com/u/22822565?v=4
 
+# boolean type, the global switch for ToC in posts.
 toc: true
 
+# how many posts to show on each page
+paginate: 10
+
+# ------------ The following options are not recommended to be modified ------------------
 kramdown:
   syntax_highlighter: rouge
   syntax_highlighter_opts:   # Rouge Options › https://github.com/jneen/rouge#full-options
     css_class: highlight
-    # default_lang: console
     span:
       line_numbers: false
     block:
@@ -33,7 +44,6 @@ collections:
   tabs:
     output: true
     sort_by: order
-
 
 defaults:
   -
@@ -59,7 +69,6 @@ defaults:
     values:
       layout: page
       permalink: /:title/
-      dynamic_title: true    # Hide title in mobile screens.
 
 sass:
   style: compressed
@@ -72,6 +81,9 @@ compress_html:
   blanklines: false
   ignore:
     envs: [development]
+
+plugins:
+  - jekyll-diagrams
 
 exclude:
   - '*.gem'
