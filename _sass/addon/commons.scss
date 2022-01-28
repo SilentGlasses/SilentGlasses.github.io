@@ -41,11 +41,14 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   font-family: 'IBM Plex Sans', sans-serif;
-  font-size: 1.5rem;
 }
 
 code, kbd, pre, samp {
-  font-family: 'IBM Plex Mono', monospace !important;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: $code-font-size;
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }
 
 /* --- Typography --- */
@@ -55,7 +58,6 @@ h1, h2, h3, h4, h5, h6 {
 
 h1 {
   @extend %heading;
-  font-size: 1.9rem;
   color: #8FBCBB;
 }
 
@@ -63,32 +65,24 @@ h2 {
   @extend %heading;
   @extend %section;
   @extend %anchor-relative;
-
-  font-size: 1.5rem;
 }
 
 h3 {
   @extend %heading;
   @extend %section;
   @extend %anchor;
-
-  font-size: 1.2rem;
 }
 
 h4 {
   @extend %heading;
   @extend %section;
   @extend %anchor;
-
-  font-size: 1.15rem;
 }
 
 h5 {
   @extend %heading;
   @extend %section;
   @extend %anchor;
-
-  font-size: 1.1rem;
 }
 
 ol,
@@ -108,12 +102,7 @@ img {
   height: auto;
 }
 
-code, kbd, pre, samp {
-  font-family: 'IBM Plex Mono', monospace;
-  white-space: pre;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-}
+
 
 * {
   box-sizing: border-box;
@@ -1543,7 +1532,7 @@ $sidebar-display: "sidebar-display";
   }
 
   .post-content {
-    font-size: 1.05rem;
+    font-size: 1.08rem;
   }
 
   footer > div.d-felx {
