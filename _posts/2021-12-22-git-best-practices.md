@@ -95,8 +95,6 @@ Save and quit again then run the following to complete the squash task
 git push --force
 ```
 
-
-
 ## Write meaningful commit messages
 
 This is something many take for granted and rarely do right. When I started learning git I was shown the easy way to write a commit message `git commit -am "fixed two build-breaking issues"`. I have since learned that you should make your commit messages meaningful so that it's easier to read the changes in the change history instead of having to open each change to read the description **if** one was added. I now run `git add` independently, then `git commit` which opens my editor where I can add a title and a more detailed description.
@@ -113,6 +111,7 @@ Here is a template you can follow
 
 ```
 Capitalized, short (50 chars or less) summary
+
 More detailed explanatory text, if necessary.  Wrap it to about 72
 characters or so.  In some contexts, the first line is treated as the
 subject of an email and the rest of the text as the body.  The blank

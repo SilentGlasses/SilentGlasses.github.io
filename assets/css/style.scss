@@ -10,3 +10,12 @@ $tab-count: {{ site.tabs | size | plus: 1 }}; // plus 1 for home tab
 @import "{{ site.theme }}";
 
 /* append your custom style below */
+
+
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+code, kbd, pre, samp {
+  font-family: 'IBM Plex Mono', monospace !important;
+}

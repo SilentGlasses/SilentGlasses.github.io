@@ -33,8 +33,6 @@ Splunk is a data mining tool that is geared for speedy indexing of high amounts 
     * The aim here is to not overburden the search head by making the indexer(s) do some of the work. Move commands that bring data to the search head as late as possible in your search criteria.
     * Commands are chained together with a pipe (`|`) character to indicate that the output of one command feeds into the next command on the right. Add each chain on a new line for easy readability.
 
-
-
 ## Splunk Queries and Dashboards
 
 ### 30 Day License Used vs Total (RolloverSummary)
