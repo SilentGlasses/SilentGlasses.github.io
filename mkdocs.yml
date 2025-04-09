@@ -5,8 +5,6 @@ site_description: Home of SilentGlasses
 # Navigation
 nav:
   - Home: 'index.md'
-  - Test: 'testing.md'
-  - Theme test: 'test-theme.md'
   - Blog:
     - 'blog/index.md'
 
