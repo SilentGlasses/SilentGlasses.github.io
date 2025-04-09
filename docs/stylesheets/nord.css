@@ -1,0 +1,772 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@300;500&family=Mali&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+/* Content area width */
+.md-grid {max-width: initial;}
+
+/* Define Nord color palette */
+:root {
+  /* Polar Night */
+  --nord0: #2E3440;
+  --nord1: #3B4252;
+  --nord2: #434C5E;
+  --nord3: #4C566A;
+
+  /* Snow Storm */
+  --nord4: #D8DEE9;
+  --nord5: #E5E9F0;
+  --nord6: #ECEFF4;
+
+  /* Frost */
+  --nord7: #8FBCBB;
+  --nord8: #88C0D0;
+  --nord9: #81A1C1;
+  --nord10: #5E81AC;
+
+  /* Aurora */
+  --nord11: #BF616A;
+  --nord12: #D08770;
+  --nord13: #EBCB8B;
+  --nord14: #A3BE8C;
+  --nord15: #B48EAD;
+
+  /* Additional theme-specific variables */
+  --md-header-height: 2.4rem;
+  --md-toolbar-height: 2.4rem;
+  --md-sidebar-width: 12.1rem;
+
+  /* Material for MkDocs variables - Dark Theme (Default Root) */
+  --md-primary-fg-color: var(--nord8);
+  --md-primary-fg-color--light: var(--nord9);
+  --md-primary-fg-color--dark: var(--nord10);
+  --md-primary-bg-color: var(--nord0);
+  --md-primary-bg-color--light: var(--nord1);
+
+  --md-accent-fg-color: var(--nord7);
+  --md-accent-fg-color--transparent: rgba(143, 188, 187, 0.1);
+  --md-accent-bg-color: var(--nord0);
+
+  --md-default-fg-color: var(--nord6);
+  --md-default-fg-color--light: var(--nord5);
+  --md-default-fg-color--lighter: var(--nord4);
+  --md-default-bg-color: var(--nord0);
+  --md-default-bg-color--light: var(--nord1);
+
+  --md-code-fg-color: var(--nord6);
+  --md-code-bg-color: var(--nord1);
+  --md-code-hl-color: var(--nord13);
+  --md-code-hl-color--light: rgba(235, 203, 139, 0.1);
+
+  --md-typeset-color: var(--md-default-fg-color);
+  --md-typeset-a-color: var(--md-primary-fg-color);
+  --md-typeset-del-color: rgba(191, 97, 106, 0.15);
+  --md-typeset-ins-color: rgba(163, 190, 140, 0.15);
+  --md-typeset-kbd-color: var(--nord3);
+  --md-typeset-kbd-accent-color: var(--nord4);
+  --md-typeset-kbd-border-color: var(--nord2);
+  --md-typeset-mark-color: rgba(235, 203, 139, 0.5);
+  --md-typeset-table-color: rgba(46, 52, 64, 0.1);
+  --md-typeset-table-color--light: rgba(46, 52, 64, 0.05);
+
+  --md-admonition-fg-color: var(--md-default-fg-color);
+  --md-admonition-bg-color: var(--md-default-bg-color);
+  --md-warning-fg-color: var(--nord11);
+  --md-warning-bg-color: rgba(191, 97, 106, 0.2);
+
+  --md-footer-fg-color: var(--nord4);
+  --md-footer-fg-color--light: var(--nord5);
+  --md-footer-fg-color--lighter: var(--nord6);
+  --md-footer-bg-color: var(--nord3);
+  --md-footer-bg-color--dark: var(--nord2);
+
+  --md-shadow-z1: 0 0.2rem 0.5rem rgba(46, 52, 64, 0.1), 0 0 0.05rem rgba(46, 52, 64, 0.2);
+  --md-shadow-z2: 0 0.2rem 0.5rem rgba(46, 52, 64, 0.2), 0 0 0.05rem rgba(46, 52, 64, 0.4);
+  --md-shadow-z3: 0 0.2rem 0.5rem rgba(46, 52, 64, 0.3), 0 0 0.05rem rgba(46, 52, 64, 0.6);
+
+  /* Header and navigation variables */
+  --md-header-bg-color: var(--nord0);
+  --md-header-fg-color: var(--nord6);
+  --md-navbar-bg-color: var(--nord1);
+  --md-navbar-fg-color: var(--nord5);
+}
+
+/* Light mode */
+[data-md-color-scheme="default"] {
+  /* Admonitions - base colors */
+  --md-admonition-bg-color: var(--nord6);
+  --md-admonition-fg-color: var(--nord0);
+
+  /* Admonition-specific colors for light mode */
+  --md-admonition-note-bg-color: rgba(136, 192, 208, 0.1);
+  --md-admonition-note-fg-color: var(--nord8);
+  --md-admonition-abstract-bg-color: rgba(129, 161, 193, 0.1);
+  --md-admonition-abstract-fg-color: var(--nord9);
+  --md-admonition-info-bg-color: rgba(143, 188, 187, 0.1);
+  --md-admonition-info-fg-color: var(--nord7);
+  --md-admonition-tip-bg-color: rgba(163, 190, 140, 0.1);
+  --md-admonition-tip-fg-color: var(--nord14);
+  --md-admonition-success-bg-color: rgba(163, 190, 140, 0.1);
+  --md-admonition-success-fg-color: var(--nord14);
+  --md-admonition-question-bg-color: rgba(180, 142, 173, 0.1);
+  --md-admonition-question-fg-color: var(--nord15);
+  --md-admonition-warning-bg-color: rgba(208, 135, 112, 0.1);
+  --md-admonition-warning-fg-color: var(--nord12);
+  --md-admonition-failure-bg-color: rgba(191, 97, 106, 0.1);
+  --md-admonition-failure-fg-color: var(--nord11);
+  --md-admonition-danger-bg-color: rgba(191, 97, 106, 0.1);
+  --md-admonition-danger-fg-color: var(--nord11);
+  --md-admonition-bug-bg-color: rgba(191, 97, 106, 0.1);
+  --md-admonition-bug-fg-color: var(--nord11);
+  --md-admonition-example-bg-color: rgba(235, 203, 139, 0.1);
+  --md-admonition-example-fg-color: var(--nord13);
+  --md-admonition-quote-bg-color: rgba(94, 129, 172, 0.1);
+  --md-admonition-quote-fg-color: var(--nord10);
+
+  /* Admonition title */
+  --md-admonition-title-bg-color: var(--md-admonition-bg-color);
+  --md-admonition-title-fg-color: var(--md-admonition-fg-color);
+  color-scheme: light;
+
+  /* Background colors */
+  --md-default-bg-color: var(--nord6); /* Lightest background */
+  --md-default-bg-color--light: var(--nord5); /* Slightly darker background for contrast */
+  --md-primary-bg-color: var(--nord5); /* Primary background for elements like buttons */
+
+  /* Text colors */
+  --md-default-fg-color: var(--nord0); /* Dark text for readability */
+  --md-default-fg-color--light: var(--nord1); /* Slightly lighter text for secondary content */
+  --md-default-fg-color--lighter: var(--nord2); /* Even lighter text for subtle elements */
+  --md-typeset-color: var(--nord0);
+
+  /* Accent colors */
+  --md-primary-fg-color: var(--nord8); /* Frost blue for primary accents */
+  --md-primary-fg-color--light: var(--nord9); /* Lighter frost blue for hover states */
+  --md-primary-fg-color--dark: var(--nord10); /* Darker frost blue for active states */
+  --md-accent-fg-color: var(--nord7); /* Teal for secondary accents */
+  --md-accent-fg-color--transparent: rgba(143, 188, 187, 0.1);
+
+  /* Code block colors */
+  --md-code-bg-color: var(--nord5); /* Light background for code blocks */
+  --md-code-fg-color: var(--nord0); /* Dark text for code */
+  --md-code-hl-color: var(--nord13); /* Yellow highlight for syntax */
+  --md-code-hl-color--light: rgba(235, 203, 139, 0.1);
+
+  /* Header and navigation */
+  --md-header-bg-color: var(--nord8); /* Light blue background for the header */
+  --md-header-fg-color: var(--nord0); /* Dark text for the header */
+  --md-navbar-bg-color: var(--nord4); /* Light background for the navbar */
+  --md-navbar-fg-color: var(--nord0); /* Dark text for the navbar */
+
+  /* Typography */
+  --md-typeset-a-color: var(--nord8);
+  --md-typeset-mark-color: rgba(235, 203, 139, 0.5);
+  --md-typeset-kbd-color: var(--nord3);
+  --md-typeset-kbd-accent-color: var(--nord6);
+  --md-typeset-kbd-border-color: var(--nord4);
+  --md-typeset-table-color: rgba(59, 66, 82, 0.12);
+  --md-typeset-table-color--light: rgba(59, 66, 82, 0.035);
+
+  /* Admonitions */
+  --md-admonition-bg-color: var(--nord6);
+  --md-admonition-fg-color: var(--nord0);
+  --md-warning-fg-color: var(--nord11);
+  --md-warning-bg-color: rgba(191, 97, 106, 0.1);
+
+  /* Footer */
+  --md-footer-bg-color: var(--nord3);
+  --md-footer-bg-color--dark: var(--nord2);
+  --md-footer-fg-color: var(--nord6);
+  --md-footer-fg-color--light: var(--nord5);
+  --md-footer-fg-color--lighter: var(--nord4);
+
+  /* Shadows */
+  --md-shadow-z1: 0 0.1rem 0.2rem rgba(0, 0, 0, 0.05), 0 0 0.05rem rgba(0, 0, 0, 0.1);
+  --md-shadow-z2: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.1), 0 0 0.1rem rgba(0, 0, 0, 0.15);
+  --md-shadow-z3: 0 0.3rem 0.6rem rgba(0, 0, 0, 0.15), 0 0 0.15rem rgba(0, 0, 0, 0.2);
+}
+
+/* Dark mode */
+[data-md-color-scheme="slate"] {
+  color-scheme: dark;
+
+  /* Background colors */
+  --md-default-bg-color: var(--nord0); /* Darkest background */
+  --md-default-bg-color--light: var(--nord1); /* Slightly lighter background for contrast */
+  --md-primary-bg-color: var(--nord1); /* Primary background for elements like buttons */
+
+  /* Text colors */
+  --md-default-fg-color: var(--nord6); /* Light text for readability */
+  --md-default-fg-color--light: var(--nord5); /* Slightly darker text for secondary content */
+  --md-default-fg-color--lighter: var(--nord4); /* Even darker text for subtle elements */
+  --md-typeset-color: var(--nord6);
+
+  /* Accent colors */
+  --md-primary-fg-color: var(--nord8); /* Frost blue for primary accents */
+  --md-primary-fg-color--light: var(--nord9); /* Lighter frost blue for hover states */
+  --md-primary-fg-color--dark: var(--nord10); /* Darker frost blue for active states */
+  --md-accent-fg-color: var(--nord9); /* Lighter frost blue for secondary accents */
+  --md-accent-fg-color--transparent: rgba(129, 161, 193, 0.1);
+
+  /* Code block colors */
+  --md-code-bg-color: var(--nord1); /* Dark background for code blocks */
+  --md-code-fg-color: var(--nord4); /* Light text for code */
+  --md-code-hl-color: var(--nord13); /* Yellow highlight for syntax */
+  --md-code-hl-color--light: rgba(235, 203, 139, 0.1);
+
+  /* Header and navigation */
+  --md-header-bg-color: var(--nord0); /* Dark background for the header */
+  --md-header-fg-color: var(--nord6); /* Light text for the header */
+  --md-navbar-bg-color: var(--nord1); /* Slightly lighter background for the navbar */
+  --md-navbar-fg-color: var(--nord4); /* Light text for the navbar */
+
+  /* Typography */
+  --md-typeset-a-color: var(--nord8);
+  --md-typeset-mark-color: rgba(235, 203, 139, 0.3);
+  --md-typeset-kbd-color: var(--nord3);
+  --md-typeset-kbd-accent-color: var(--nord4);
+  --md-typeset-kbd-border-color: var(--nord2);
+  --md-typeset-table-color: rgba(236, 239, 244, 0.12);
+  --md-typeset-table-color--light: rgba(236, 239, 244, 0.035);
+
+  /* Admonitions - base colors */
+  --md-admonition-bg-color: var(--nord1);
+  --md-admonition-fg-color: var(--nord6);
+  --md-warning-fg-color: var(--nord11);
+  --md-warning-bg-color: rgba(191, 97, 106, 0.1);
+
+  /* Admonition-specific colors for dark mode */
+  --md-admonition-note-bg-color: rgba(136, 192, 208, 0.15);
+  --md-admonition-note-fg-color: var(--nord8);
+  --md-admonition-abstract-bg-color: rgba(129, 161, 193, 0.15);
+  --md-admonition-abstract-fg-color: var(--nord9);
+  --md-admonition-info-bg-color: rgba(143, 188, 187, 0.15);
+  --md-admonition-info-fg-color: var(--nord7);
+  --md-admonition-tip-bg-color: rgba(163, 190, 140, 0.15);
+  --md-admonition-tip-fg-color: var(--nord14);
+  --md-admonition-success-bg-color: rgba(163, 190, 140, 0.15);
+  --md-admonition-success-fg-color: var(--nord14);
+  --md-admonition-question-bg-color: rgba(180, 142, 173, 0.15);
+  --md-admonition-question-fg-color: var(--nord15);
+  --md-admonition-warning-bg-color: rgba(208, 135, 112, 0.15);
+  --md-admonition-
+
+  /* Footer */
+  --md-footer-bg-color: var(--nord1);
+  --md-footer-bg-color--dark: var(--nord0);
+  --md-footer-fg-color: var(--nord6);
+  --md-footer-fg-color--light: var(--nord5);
+  --md-footer-fg-color--lighter: var(--nord4);
+
+  /* Shadows */
+  --md-shadow-z1: 0 0.1rem 0.2rem rgba(0, 0, 0, 0.2), 0 0 0.05rem rgba(0, 0, 0, 0.25);
+  --md-shadow-z2: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.3), 0 0 0.1rem rgba(0, 0, 0, 0.35);
+  --md-shadow-z3: 0 0.3rem 0.6rem rgba(0, 0, 0, 0.4), 0 0 0.15rem rgba(0, 0, 0, 0.45);
+}
+
+/* Apply Nord colors to elements */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: var(--md-text-font-family);
+  background-color: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+}
+
+aside,
+body,
+input {
+  font-feature-settings: "kern", "liga";
+  color: var(--md-typeset-color);
+  font-family: var(--md-text-font-family);
+}
+
+code,
+kbd,
+pre {
+  font-feature-settings: "kern";
+  font-family: var(--md-code-font-family);
+  color: var(--md-code-fg-color);
+}
+
+code {
+  background-color: var(--md-code-bg-color);
+  color: var(--md-code-fg-color);
+}
+
+pre {
+  background-color: var(--md-code-bg-color);
+  color: var(--md-code-fg-color);
+  border-left: 4px solid var(--md-code-hl-color);
+}
+
+a {
+  color: var(--md-typeset-a-color);
+  text-decoration: none;
+  transition: color 125ms;
+}
+
+a:hover {
+  color: var(--md-accent-fg-color);
+}
+
+a code {
+  color: currentColor;
+  transition: background-color 125ms;
+}
+
+a:focus-visible {
+  outline-color: var(--md-accent-fg-color);
+  outline-offset: 0.2rem;
+}
+
+hr {
+  border-bottom: 0.05rem solid var(--md-default-fg-color--lightest);
+  display: flow-root;
+  margin: 1.5em 0;
+}
+
+/* Typography */
+.md-typeset {
+    font-size: 0.8rem;
+    line-height: 1.6;
+    overflow-wrap: break-word;
+    color: var(--md-typeset-color);
+}
+
+.md-typeset h1 {
+    color: var(--md-default-fg-color--light);
+    font-size: 2em;
+    line-height: 1.3;
+    margin: 0 0 1.25em;
+}
+
+.md-typeset h2 {
+    font-size: 1.5625em;
+    line-height: 1.4;
+    margin: 1.6em 0 0.64em;
+}
+
+.md-typeset h3 {
+    font-size: 1.25em;
+    font-weight: 400;
+    line-height: 1.5;
+    margin: 1.6em 0 0.8em;
+}
+
+.md-typeset h4 {
+    font-weight: 700;
+    margin: 1em 0;
+}
+
+.md-typeset h5,
+.md-typeset h6 {
+    color: var(--md-default-fg-color--light);
+    font-size: 0.8em;
+    font-weight: 700;
+    margin: 1.25em 0;
+}
+
+.md-typeset h5 {
+    text-transform: uppercase;
+ }
+
+.md-typeset blockquote {
+    position: relative;
+    display: inline-block;
+    padding: 20px;
+    border-radius: 10px;
+    font-family: 'Mali', cursive;
+    text-align: left;
+    margin: 1.5em 0;
+    width: 100%;
+    border-left: 4px solid var(--nord8);
+    transition: all 0.3s ease;
+}
+
+.md-typeset blockquote .author {
+    display: block;
+    margin-top: 1em;
+    font-family: 'Mali', cursive;
+    font-size: 0.9em;
+    font-style: italic;
+}
+
+/* Light theme blockquote styling */
+[data-md-color-scheme="default"] blockquote {
+    background-color: var(--nord6);
+    color: var(--nord0);
+    box-shadow:
+        1px 1px 2px var(--nord2),
+        2px 2px 4px var(--nord1),
+        3px 3px 6px rgba(59, 66, 82, 0.2);
+}
+
+[data-md-color-scheme="default"] blockquote .author {
+    color: var(--nord2);
+}
+
+[data-md-color-scheme="default"] blockquote:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        2px 2px 4px var(--nord2),
+        4px 4px 8px var(--nord1),
+        6px 6px 12px rgba(59, 66, 82, 0.2);
+}
+
+/* Dark theme blockquote styling */
+[data-md-color-scheme="slate"] blockquote {
+    background-color: var(--nord1);
+    color: var(--nord6);
+    box-shadow:
+        1px 1px 2px var(--nord0),
+        2px 2px 4px rgba(46, 52, 64, 0.8),
+        3px 3px 6px rgba(46, 52, 64, 0.6);
+}
+
+[data-md-color-scheme="slate"] blockquote .author {
+    color: var(--nord4);
+}
+
+[data-md-color-scheme="slate"] blockquote:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        2px 2px 4px var(--nord0),
+        4px 4px 8px rgba(46, 52, 64, 0.8),
+        6px 6px 12px rgba(46, 52, 64, 0.6);
+}
+
+.md-typeset ul {
+    list-style-type: disc;
+    margin: 1em 0;
+    padding-left: 1.25em;
+}
+
+.md-typeset ol {
+    list-style-type: decimal;
+    margin: 1em 0;
+    padding-left: 1.25em;
+}
+
+.md-typeset table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1em 0;
+}
+
+.md-typeset table th,
+.md-typeset table td {
+    border: 0.05rem solid var(--md-typeset-table-color);
+    padding: 0.5em;
+    text-align: left;
+}
+
+.md-typeset table th {
+    background-color: var(--md-default-bg-color--light);
+    font-weight: bold;
+}
+
+.md-typeset table tr:nth-child(even) {
+    background-color: var(--md-typeset-table-color--light);
+}
+
+/* Code blocks */
+.md-typeset code {
+    background-color: var(--md-code-bg-color);
+    border-radius: 0.1rem;
+    padding: 0.2em 0.4em;
+    font-size: 0.85em;
+}
+
+.md-typeset pre {
+    background-color: var(--md-code-bg-color);
+    border-radius: 0.1rem;
+    padding: 1em;
+    overflow: auto;
+    line-height: 1.4;
+}
+
+.md-typeset pre code {
+    background-color: transparent;
+    padding: 0;
+}
+
+/* Admonitions */
+.md-typeset .admonition {
+    background-color: var(--md-admonition-bg-color);
+    border-left: 0.2rem solid;
+    margin: 1.5em 0;
+    padding: 0.8rem;
+    border-radius: 0.2rem;
+    box-shadow: var(--md-shadow-z1);
+    font-size: 0.8rem;
+    overflow: hidden;
+    position: relative;
+}
+
+.md-typeset .admonition-title {
+    position: relative;
+    margin: -1em -1em 0.8em -1em;
+    padding: 0.5em 1em 0.5em 2em;
+    font-weight: 700;
+    border-bottom: 0.05rem solid;
+    border-bottom-color: inherit;
+    background-color: var(--md-admonition-title-bg-color);
+    color: var(--md-admonition-title-fg-color);
+}
+
+.md-typeset .admonition-title::before {
+    position: absolute;
+    left: 0.6em;
+    top: 0.5em;
+    font-family: "Material Icons";
+    font-size: 1rem;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+}
+
+/* Note admonition */
+.md-typeset .admonition.note {
+    border-color: var(--nord8);
+}
+
+.md-typeset .admonition.note > .admonition-title {
+    background-color: var(--md-admonition-note-bg-color);
+    color: var(--md-admonition-note-fg-color);
+}
+
+/* Abstract/Summary admonition */
+.md-typeset .admonition.abstract,
+.md-typeset .admonition.summary {
+    border-color: var(--nord9);
+}
+
+.md-typeset .admonition.abstract > .admonition-title,
+.md-typeset .admonition.summary > .admonition-title {
+    background-color: var(--md-admonition-abstract-bg-color);
+    color: var(--md-admonition-abstract-fg-color);
+}
+
+
+/* Info admonition */
+.md-typeset .admonition.info {
+    border-color: var(--nord7);
+}
+
+.md-typeset .admonition.info > .admonition-title {
+    background-color: var(--md-admonition-info-bg-color);
+    color: var(--md-admonition-info-fg-color);
+}
+
+/* Tip admonition */
+.md-typeset .admonition.tip {
+    border-color: var(--nord14);
+}
+
+.md-typeset .admonition.tip > .admonition-title {
+    background-color: var(--md-admonition-tip-bg-color);
+    color: var(--md-admonition-tip-fg-color);
+}
+
+/* Success admonition */
+.md-typeset .admonition.success {
+    border-color: var(--nord14);
+}
+
+.md-typeset .admonition.success > .admonition-title {
+    background-color: var(--md-admonition-success-bg-color);
+    color: var(--md-admonition-success-fg-color);
+}
+
+/* Question admonition */
+.md-typeset .admonition.question {
+    border-color: var(--nord15);
+}
+
+.md-typeset .admonition.question > .admonition-title {
+    background-color: var(--md-admonition-question-bg-color);
+    color: var(--md-admonition-question-fg-color);
+}
+
+/* Warning admonition */
+.md-typeset .admonition.warning {
+    border-color: var(--nord12);
+}
+
+.md-typeset .admonition.warning > .admonition-title {
+    background-color: var(--md-admonition-warning-bg-color);
+    color: var(--md-admonition-warning-fg-color);
+}
+
+/* Failure admonition */
+.md-typeset .admonition.failure {
+    border-color: var(--nord11);
+}
+
+.md-typeset .admonition.failure > .admonition-title {
+    background-color: var(--md-admonition-failure-bg-color);
+    color: var(--md-admonition-failure-fg-color);
+}
+
+/* Danger admonition */
+.md-typeset .admonition.danger {
+    border-color: var(--nord11);
+}
+
+.md-typeset .admonition.danger > .admonition-title {
+    background-color: var(--md-admonition-danger-bg-color);
+    color: var(--md-admonition-danger-fg-color);
+}
+
+/* Bug admonition */
+.md-typeset .admonition.bug {
+    border-color: var(--nord11);
+}
+
+.md-typeset .admonition.bug > .admonition-title {
+    background-color: var(--md-admonition-bug-bg-color);
+    color: var(--md-admonition-bug-fg-color);
+}
+
+/* Example admonition */
+.md-typeset .admonition.example {
+    border-color: var(--nord13);
+}
+
+.md-typeset .admonition.example > .admonition-title {
+    background-color: var(--md-admonition-example-bg-color);
+    color: var(--md-admonition-example-fg-color);
+}
+
+/* Quote admonition */
+.md-typeset .admonition.quote {
+    border-color: var(--nord10);
+}
+
+.md-typeset .admonition.quote > .admonition-title {
+    background-color: var(--md-admonition-quote-bg-color);
+    color: var(--md-admonition-quote-fg-color);
+}
+
+/* Footer */
+.md-footer {
+    background-color: var(--md-footer-bg-color);
+    color: var(--md-footer-fg-color);
+    padding: 1em;
+    text-align: center;
+}
+
+.md-footer a {
+    color: var(--md-footer-fg-color--light);
+}
+
+.md-footer a:hover {
+    color: var(--md-footer-fg-color);
+}
+
+/* Header and Navigation specific styles */
+.md-header {
+  background-color: var(--md-header-bg-color);
+  color: var(--md-header-fg-color);
+  box-shadow: var(--md-shadow-z1);
+}
+
+.md-header__title {
+  color: var(--md-header-fg-color);
+}
+
+.md-tabs {
+  background-color: var(--md-navbar-bg-color);
+  color: var(--md-navbar-fg-color);
+}
+
+.md-tabs__link {
+  color: var(--md-navbar-fg-color);
+  opacity: 0.9;
+}
+
+.md-tabs__link:hover,
+.md-tabs__link--active {
+  color: var(--md-navbar-fg-color);
+  opacity: 1;
+}
+
+.md-nav {
+  color: var(--md-typeset-color);
+}
+
+.md-nav__title {
+  color: var(--md-default-fg-color--light);
+}
+
+.md-nav__link {
+  color: var(--md-typeset-color);
+}
+
+.md-nav__link:hover,
+.md-nav__link--active {
+  color: var(--md-accent-fg-color);
+}
+
+/* Buttons */
+.md-button {
+    background-color: var(--md-primary-fg-color);
+    color: var(--md-primary-bg-color);
+    border: none;
+    padding: 0.5em 1em;
+    border-radius: 0.1rem;
+    cursor: pointer;
+    transition: background-color 125ms, color 125ms;
+}
+
+.md-button:hover {
+    background-color: var(--md-accent-fg-color);
+    color: var(--md-accent-bg-color);
+}
+
+/* Lists */
+.md-typeset ol li,
+.md-typeset ul li {
+  margin-bottom: 0.5em;
+}
+
+.md-typeset ol li:last-child,
+.md-typeset ul li:last-child {
+  margin-bottom: 0;
+}
+
+.md-typeset ol li ol,
+.md-typeset ul li ul {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+/* Images and Figures */
+.md-typeset img,
+.md-typeset svg,
+.md-typeset video {
+  height: auto;
+  max-width: 100%;
+}
+
+.md-typeset figure {
+  display: flow-root;
+  margin: 1em auto;
+  max-width: 100%;
+  text-align: center;
+}
+
+.md-typeset figure img {
+  display: block;
+  margin: 0 auto;
+}
+
+/* General styles */
+.md-icon svg {
+    fill: currentColor;
+    display: block;
+    height: 1.2rem;
+    width: 1.2rem;
+  }
