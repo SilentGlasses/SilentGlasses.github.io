@@ -45,7 +45,7 @@ theme:
     - search.suggest
     - toc.follow
   font:
-    text: 'Rubik'
+    text: 'IBM Plex Sans'
     code: 'JetBrains Mono'
   icon:
     repo: fontawesome/brands/github
