@@ -1,0 +1,9 @@
+mkdocs
+mkdocs-autolinks-plugin
+mkdocs-git-authors-plugin
+mkdocs-git-revision-date-localized-plugin
+mkdocs-material
+mkdocs-material-extensions
+mkdocs-mermaid2-plugin
+mkdocs-pymdownx-material-extras
+pymdown-extensions

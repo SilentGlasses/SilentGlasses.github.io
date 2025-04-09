@@ -1,2 +1,3 @@
-# SilentGlasses.github.io
-My Blog Site
+# Welcome
+
+THis is just my personal site where I will host thing I learn and run my Tech Blog.

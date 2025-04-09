@@ -1,0 +1,132 @@
+# Project information
+site_name: SilentGlasses Home
+site_description: Home of SilentGlasses
+
+# Navigation
+nav:
+  - Home: 'index.md'
+  - Test: 'testing.md'
+  - Theme test: 'test-theme.md'
+  - Blog:
+    - 'blog/index.md'
+
+# <!-- START CUSTOMIZATION SECTION -->
+# Documentation and theme
+theme:
+  name: material
+  language: en
+  logo: 'https://avatars.githubusercontent.com/u/22822565'
+  favicon: 'https://avatars.githubusercontent.com/u/22822565'
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - content.action.view # Allows for direct viewing of code
+    - content.code.annotate
+    - content.code.copy
+    - content.code.select
+    - content.tabs.link
+    - navigation.expand
+    - navigation.indexes
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.instant.preview
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.top
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
+  font:
+    text: 'Rubik'
+    code: 'JetBrains Mono'
+  icon:
+    repo: fontawesome/brands/github
+
+extra_css:
+    - stylesheets/nord.css
+extra_javascript:
+  - https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.js
+  - https://unpkg.com/mermaid/dist/mermaid.min.js
+
+plugins:
+  - search
+  - blog:
+      authors: true
+      archive_date_format: MMMM yyyy
+      pagination: true
+      pagination_per_page: 5
+      pagination_format: "$link_first $link_previous ~2~ $link_next $link_last"
+  - autolinks
+  - git-authors:
+      exclude:
+        - index.md
+        - tags.md
+  - git-revision-date-localized:
+      type: timeago
+      locale: en
+      fallback_to_build_date: true
+      enable_creation_date: true
+      exclude:
+        - index.md
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - codehilite:
+      guess_lang: true
+      use_pygments: true
+  - def_list
+  - footnotes
+  - md_in_html
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      repo_url_shorthand: true
+      user: squidfunk
+      repo: mkdocs-material
+  - pymdownx.mark
+  - pymdownx.pathconverter
+  - pymdownx.saneheaders
+  - pymdownx.smartsymbols
+  - pymdownx.snippets:
+      base_path: .
+      check_paths: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+      clickable_checkbox: true
+  - pymdownx.tilde
+  - toc:
+      permalink: false
+      toc_depth: 3
+# <!-- END CUSTOMIZATION SECTION -->
