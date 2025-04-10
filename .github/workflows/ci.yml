@@ -1,4 +1,4 @@
-name: ci
+name: ci 
 on:
   push:
     branches:
@@ -17,13 +17,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: 3.x
-          fetch-depth: 0
-      - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
+      - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV 
       - uses: actions/cache@v4
         with:
           key: mkdocs-material-${{ env.cache_id }}
-          path: .cache
+          path: .cache 
           restore-keys: |
             mkdocs-material-
-      - run: python3 -m pip install --upgrade pip -r requirements.txt --progress-bar off
+      - run: pip install mkdocs-material 
       - run: mkdocs gh-deploy --force
