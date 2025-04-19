@@ -1,0 +1,1780 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Home of SilentGlasses">
+      
+      
+      
+      
+        <link rel="prev" href="../../22/git-best-practice/">
+      
+      
+        <link rel="next" href="../../../../2022/02/18/is-splunk-alerting/">
+      
+      
+      <link rel="icon" href="https://avatars.githubusercontent.com/u/22822565">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.12">
+    
+    
+      
+        <title>General Splunk Things - SilentGlasses Home</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.2afb09e1.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../css/timeago.css">
+    
+      <link rel="stylesheet" href="../../../../../stylesheets/nord.css">
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#helpful-tidbits" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="SilentGlasses Home" class="md-header__button md-logo" aria-label="SilentGlasses Home" data-md-component="logo">
+      
+  <img src="https://avatars.githubusercontent.com/u/22822565" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            SilentGlasses Home
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              General Splunk Things
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="SilentGlasses Home" class="md-nav__button md-logo" aria-label="SilentGlasses Home" data-md-component="logo">
+      
+  <img src="https://avatars.githubusercontent.com/u/22822565" alt="logo">
+
+    </a>
+    SilentGlasses Home
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Blog
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Blog
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Archive
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Archive
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2022/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    February 2022
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2021/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    December 2021
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Categories
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            Categories
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/administration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Administration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/cooking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cooking
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/devops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    DevOps
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/food/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Food
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/git/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Git
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/hardware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Hardware
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/observability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Observability
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/splunk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Splunk
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/utilities/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Utilities
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/macos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    macOS
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#helpful-tidbits" class="md-nav__link">
+    <span class="md-ellipsis">
+      Helpful Tidbits
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#splunk-queries-and-dashboards" class="md-nav__link">
+    <span class="md-ellipsis">
+      Splunk Queries and Dashboards
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Splunk Queries and Dashboards">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#30-day-license-used-vs-total-rolloversummary" class="md-nav__link">
+    <span class="md-ellipsis">
+      30 Day License Used vs Total (RolloverSummary)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage-by-host-top-10-over-last-7-days-non-splunk" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage by Host - Top 10 over Last 7 Days (Non Splunk)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage-by-host-top-10-over-last-30-days-non-splunk" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage by Host - Top 10 over last 30 days (Non Splunk)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage-by-host-top-10-over-last-7-days-splunk" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage by Host - Top 10 over last 7 days (Splunk)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage-by-host-top-10-over-last-30-days-splunk" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage by Host - Top 10 over last 30 days (Splunk)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage-by-index-top-10-over-last-7-days" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage by Index - Top 10 over Last 7 Days
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage-by-index-top-10-over-last-30-days" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage by Index - Top 10 over Last 30 Days
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage-by-input-top-10-over-last-7-days-non-_" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage by input - Top 10 over last 7 days (Non _*)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage-by-input-top-10-over-last-30-days-non-_" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage by input - Top 10 over last 30 days (Non _*)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage-by-log-file-top-10-over-last-7-days" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage by Log File - Top 10 over last 7 days
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage-by-log-file-top-10-over-last-30-days" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage by Log File - Top 10 over last 30 days
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#user-last-login-last-30-days" class="md-nav__link">
+    <span class="md-ellipsis">
+      User Last Login (Last 30 Days)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#top-10-users-in-last-30-days" class="md-nav__link">
+    <span class="md-ellipsis">
+      Top 10 Users in Last 30 Days
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#license-usage-by-index-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      License Usage by Index Dashboard
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#splunk-data-volume-investigation-by-host" class="md-nav__link">
+    <span class="md-ellipsis">
+      Splunk Data Volume Investigation by Host
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#splunk-data-volume-investigation-by-source" class="md-nav__link">
+    <span class="md-ellipsis">
+      Splunk Data Volume Investigation by Source
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../../../../" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+              <div class="md-post__authors md-typeset">
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://avatars.githubusercontent.com/u/22822565" alt="SilentGlasses">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          SilentGlasses
+                        
+                      </strong>
+                      <br>
+                      Administrator
+                    </span>
+                  </div>
+                
+              </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2021-12-29 02:00:00+00:00" class="md-ellipsis">December 29, 2021</time>
+                      </div>
+                    </li>
+                    
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 3v15h3V3zm3 2 4 13 3-1-4-13zM5 5v13h3V5zM3 19v2h18v-2z"/></svg>
+                          <span class="md-ellipsis">
+                            in
+                            
+                              <a href="../../../../category/observability/">Observability</a>, 
+                              <a href="../../../../category/splunk/">Splunk</a></span>
+                        </div>
+                      </li>
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              13 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+
+  <h1>General Splunk Things</h1>
+
+<p>This page will host general Splunk things that I find useful to reference and keep an eye on things in Splunk.</p>
+<p>Splunk is a data mining tool that is geared for speedy indexing of high amounts of data. Using this data it specializes in being able to visualize this data in order to make sense of your logs. It captures, indexes and correlates near real-time machine data in a searchable repository from which you can generate graphs, reports, alerts, dashboards and more.</p>
+<!-- more -->
+<h2 id="helpful-tidbits">Helpful Tidbits</h2>
+<ul>
+<li>Enable Search assistant (Account -&gt; Preferences -&gt; SPL Editor -&gt; set to Full)</li>
+<li>Specify the index, source, or source type<ul>
+<li>Take the time to learn the details of your data, which indexes contain them, the sources of your data, and the source types. Knowing this information about your data helps you narrow down your searches.</li>
+</ul>
+</li>
+<li>Be Specific<ul>
+<li>Use the most specific terms in your search that you can. If possible, avoid using wildcard (<code>*</code>) characters.</li>
+</ul>
+</li>
+<li>Avoid certain Conditions<ul>
+<li>More resources are used tracking <code>NOT</code> expressions than if you specify what you are looking for. Where ever possible, avoid using <code>NOT</code> expressions.</li>
+</ul>
+</li>
+<li><strong>NEVER</strong> use <strong>All Time</strong> or <strong>Real Time</strong><ul>
+<li>These pull every available datapoint in Splunk and will cause extreme resource drain and possibly crash Splunk.</li>
+</ul>
+</li>
+<li>Always limit time ranges to reduce system stress<ul>
+<li>One of the most effective ways to limit the data that is pulled off from disk is to limit the time range. Be as specific with the time as you can to only pull the pertinent data.</li>
+</ul>
+</li>
+<li>Read the Creating Optimized Splunk Searches article. <em>(future post)</em><ul>
+<li>Here you will find lots of good information on building searches.</li>
+</ul>
+</li>
+<li>Check the Job Inspector<ul>
+<li>This is a tool that allows you to examine your stats of your searches including where Splunk is spending it's time. Use it to troubleshoot performance and understand the impact on processing.</li>
+</ul>
+</li>
+<li>Use proper order of commands<ul>
+<li>The aim here is to not overburden the search head by making the indexer(s) do some of the work. Move commands that bring data to the search head as late as possible in your search criteria.</li>
+<li>Commands are chained together with a pipe (<code>|</code>) character to indicate that the output of one command feeds into the next command on the right. Add each chain on a new line for easy readability.</li>
+</ul>
+</li>
+</ul>
+<h2 id="splunk-queries-and-dashboards">Splunk Queries and Dashboards</h2>
+<h3 id="30-day-license-used-vs-total-rolloversummary">30 Day License Used vs Total (RolloverSummary)</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1">index=_internal source=*license_usage.log type=&quot;RolloverSummary&quot; earliest=-30d@d
+</span><span id="__span-0-2">| eval _time=_time - 43200
+</span><span id="__span-0-3">| bin _time span=1d
+</span><span id="__span-0-4">| stats latest(b) AS b by slave, pool, _time
+</span><span id="__span-0-5">| timechart span=1d sum(b) AS &quot;Used&quot; fixedrange=false
+</span><span id="__span-0-6">| fields - _timediff
+</span><span id="__span-0-7">| foreach * [eval &lt;&lt;FIELD&gt;&gt;=round(&#39;&lt;&lt;FIELD&gt;&gt;&#39;/1024/1024/1024, 3)]
+</span><span id="__span-0-8">| eval Available = 900
+</span></code></pre></div>
+<h3 id="usage-by-host-top-10-over-last-7-days-non-splunk">Usage by Host - Top 10 over Last 7 Days (Non Splunk)</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1">index=_internal source=&quot;*metrics.log&quot; group=per_host_thruput host!=&quot;splunk*&quot;
+</span><span id="__span-1-2">  | eval GB=round((kb/1024/1024),2)
+</span><span id="__span-1-3">  | chart sum(GB) AS GB by host
+</span><span id="__span-1-4">  | sort 10 -GB
+</span></code></pre></div>
+<h3 id="usage-by-host-top-10-over-last-30-days-non-splunk">Usage by Host - Top 10 over last 30 days (Non Splunk)</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1">index=_internal source=&quot;*metrics.log&quot; group=per_host_thruput host!=&quot;splunk*&quot;
+</span><span id="__span-2-2">  | eval GB=round((kb/1024/1024),2)
+</span><span id="__span-2-3">  | chart sum(GB) AS GB by host
+</span><span id="__span-2-4">  | sort 10 -GB
+</span></code></pre></div>
+<h3 id="usage-by-host-top-10-over-last-7-days-splunk">Usage by Host - Top 10 over last 7 days (Splunk)</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1">index=_internal source=&quot;*metrics.log&quot; group=per_index_thruput host=&quot;splunk*&quot;
+</span><span id="__span-3-2">  | eval GB=round((kb/1024/1024),2)
+</span><span id="__span-3-3">  | chart sum(GB) AS GB by host
+</span><span id="__span-3-4">  | sort 10 -GB
+</span></code></pre></div>
+<h3 id="usage-by-host-top-10-over-last-30-days-splunk">Usage by Host - Top 10 over last 30 days (Splunk)</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1">index=_internal source=&quot;*metrics.log&quot; group=per_index_thruput host=&quot;splunk*&quot;
+</span><span id="__span-4-2">  | eval GB=round((kb/1024/1024),2)
+</span><span id="__span-4-3">  | chart sum(GB) AS GB by host
+</span><span id="__span-4-4">  | sort 10 -GB
+</span></code></pre></div>
+<h3 id="usage-by-index-top-10-over-last-7-days">Usage by Index - Top 10 over Last 7 Days</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1">index=_internal source=*license_usage.log type=Usage
+</span><span id="__span-5-2">  | eval GB=round((b/1024/1024/1024),2)
+</span><span id="__span-5-3">  | chart sum(GB) AS GB by idx
+</span><span id="__span-5-4">  | sort 10 -GB
+</span></code></pre></div>
+<h3 id="usage-by-index-top-10-over-last-30-days">Usage by Index - Top 10 over Last 30 Days</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1">index=_internal source=*license_usage.log type=Usage
+</span><span id="__span-6-2">  | eval GB=round((b/1024/1024/1024),2)
+</span><span id="__span-6-3">  | chart sum(GB) AS GB by idx
+</span><span id="__span-6-4">  | sort 10 -GB
+</span></code></pre></div>
+<h3 id="usage-by-input-top-10-over-last-7-days-non-_">Usage by input - Top 10 over last 7 days (Non _*)</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1">index=_internal source=&quot;*metrics.log&quot; group=per_source_thruput series!=&quot;_*&quot; series!=&quot;*splunk*metrics.log&quot;
+</span><span id="__span-7-2">  | eval GB=round((kb/1024/1024),2)
+</span><span id="__span-7-3">  | chart sum(GB) AS GB by series
+</span><span id="__span-7-4">  | sort 10 -GB
+</span></code></pre></div>
+<h3 id="usage-by-input-top-10-over-last-30-days-non-_">Usage by input - Top 10 over last 30 days (Non _*)</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1">index=_internal source=&quot;*metrics.log&quot; group=per_source_thruput series!=&quot;_*&quot; series!=&quot;*splunk*metrics.log&quot;
+</span><span id="__span-8-2">  | eval GB=round((kb/1024/1024),2)
+</span><span id="__span-8-3">  | chart sum(GB) AS GB by series
+</span><span id="__span-8-4">  | sort 10 -GB
+</span></code></pre></div>
+<h3 id="usage-by-log-file-top-10-over-last-7-days">Usage by Log File - Top 10 over last 7 days</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1">index::_internal metrics NOT debug NOT sourcetype::splunk_web_access group=&quot;per_source_thruput&quot; (series=/var/log*)
+</span><span id="__span-9-2">  | eval GB=round((kb/1024/1024),2)
+</span><span id="__span-9-3">  | chart sum(GB) AS GB by series
+</span><span id="__span-9-4">  | sort 10 -GB
+</span></code></pre></div>
+<h3 id="usage-by-log-file-top-10-over-last-30-days">Usage by Log File - Top 10 over last 30 days</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1">index::_internal metrics NOT debug NOT sourcetype::splunk_web_access group=&quot;per_source_thruput&quot; (series=/var/log*)
+</span><span id="__span-10-2">  | eval GB=round((kb/1024/1024),2)
+</span><span id="__span-10-3">  | chart sum(GB) AS GB by series
+</span><span id="__span-10-4">  | sort 10 -GB
+</span></code></pre></div>
+<h3 id="user-last-login-last-30-days">User Last Login (Last 30 Days)</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1">index=_audit action=&quot;login attempt&quot; user NOT admin
+</span><span id="__span-11-2">  | stats max(timestamp) by user
+</span><span id="__span-11-3">  | rename max(timestamp) AS &quot;Last Login&quot;
+</span><span id="__span-11-4">  | sort -&quot;Last Login&quot;
+</span></code></pre></div>
+<h3 id="top-10-users-in-last-30-days">Top 10 Users in Last 30 Days</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1">index=_audit action=&quot;login attempt&quot; user NOT admin
+</span><span id="__span-12-2">  | stats count by user
+</span><span id="__span-12-3">  | sort -count
+</span><span id="__span-12-4">  | head 10
+</span></code></pre></div>
+<h3 id="license-usage-by-index-dashboard">License Usage by Index Dashboard</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1">&lt;form&gt;
+</span><span id="__span-13-2">  &lt;label&gt;License Usage by Index&lt;/label&gt;
+</span><span id="__span-13-3">  &lt;description&gt;License Usage by Index - Last 7 Days. Use this to determine when the Index started breaching License Usage&lt;/description&gt;
+</span><span id="__span-13-4">  &lt;fieldset submitButton=&quot;false&quot;&gt;
+</span><span id="__span-13-5">    &lt;input type=&quot;dropdown&quot; token=&quot;idx&quot; searchWhenChanged=&quot;true&quot;&gt;
+</span><span id="__span-13-6">      &lt;label&gt;Index&lt;/label&gt;
+</span><span id="__span-13-7">      &lt;fieldForLabel&gt;idx&lt;/fieldForLabel&gt;
+</span><span id="__span-13-8">      &lt;fieldForValue&gt;idx&lt;/fieldForValue&gt;
+</span><span id="__span-13-9">      &lt;search&gt;
+</span><span id="__span-13-10">        &lt;query&gt;index=_internal source=*license_usage.log* type=Usage NOT idx=sos | dedup idx | table idx | sort idx asc&lt;/query&gt;
+</span><span id="__span-13-11">        &lt;earliest&gt;-7d@h&lt;/earliest&gt;
+</span><span id="__span-13-12">        &lt;latest&gt;now&lt;/latest&gt;
+</span><span id="__span-13-13">      &lt;/search&gt;
+</span><span id="__span-13-14">    &lt;/input&gt;
+</span><span id="__span-13-15">  &lt;/fieldset&gt;
+</span><span id="__span-13-16">  &lt;row&gt;
+</span><span id="__span-13-17">    &lt;panel&gt;
+</span><span id="__span-13-18">      &lt;title&gt;Select an Index from the drop down above to populate this panel.&lt;/title&gt;
+</span><span id="__span-13-19">      &lt;chart&gt;
+</span><span id="__span-13-20">        &lt;search&gt;
+</span><span id="__span-13-21">          &lt;query&gt;index=&quot;_internal&quot; host=splunkidx* source=&quot;*metrics.log&quot; earliest=-7d  series=$idx$
+</span><span id="__span-13-22">  | eval GB=kb / 1024 / 1024
+</span><span id="__span-13-23">  | timechart span=1d limit=0 sum(GB) by series&lt;/query&gt;
+</span><span id="__span-13-24">          &lt;earliest&gt;-7d@h&lt;/earliest&gt;
+</span><span id="__span-13-25">          &lt;latest&gt;now&lt;/latest&gt;
+</span><span id="__span-13-26">        &lt;/search&gt;
+</span><span id="__span-13-27">        &lt;option name=&quot;charting.chart&quot;&gt;column&lt;/option&gt;
+</span><span id="__span-13-28">        &lt;option name=&quot;charting.drilldown&quot;&gt;none&lt;/option&gt;
+</span><span id="__span-13-29">        &lt;option name=&quot;refresh.display&quot;&gt;progressbar&lt;/option&gt;
+</span><span id="__span-13-30">      &lt;/chart&gt;
+</span><span id="__span-13-31">    &lt;/panel&gt;
+</span><span id="__span-13-32">  &lt;/row&gt;
+</span><span id="__span-13-33">&lt;/form&gt;
+</span></code></pre></div>
+<h3 id="splunk-data-volume-investigation-by-host">Splunk Data Volume Investigation by Host</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1">&lt;form&gt;
+</span><span id="__span-14-2">  &lt;label&gt;Splunk Data Volume Investigation by Host&lt;/label&gt;
+</span><span id="__span-14-3">  &lt;description&gt;License Usage by Host - Last 7 Days. Use this to determine what on the host is breaching License Usage&lt;/description&gt;
+</span><span id="__span-14-4">  &lt;fieldset submitButton=&quot;false&quot;&gt;
+</span><span id="__span-14-5">    &lt;input type=&quot;dropdown&quot; token=&quot;series&quot; searchWhenChanged=&quot;true&quot;&gt;
+</span><span id="__span-14-6">      &lt;label&gt;Hostname&lt;/label&gt;
+</span><span id="__span-14-7">      &lt;search&gt;
+</span><span id="__span-14-8">        &lt;query&gt;index=&quot;_internal&quot; source=&quot;*metrics.log&quot; group=&quot;per_host_thruput&quot;
+</span><span id="__span-14-9">  | dedup series
+</span><span id="__span-14-10">  | sort series asc
+</span><span id="__span-14-11">  | table series&lt;/query&gt;
+</span><span id="__span-14-12">        &lt;earliest&gt;-7d@h&lt;/earliest&gt;
+</span><span id="__span-14-13">        &lt;latest&gt;now&lt;/latest&gt;
+</span><span id="__span-14-14">      &lt;/search&gt;
+</span><span id="__span-14-15">      &lt;fieldForLabel&gt;series&lt;/fieldForLabel&gt;
+</span><span id="__span-14-16">      &lt;fieldForValue&gt;series&lt;/fieldForValue&gt;
+</span><span id="__span-14-17">    &lt;/input&gt;
+</span><span id="__span-14-18">  &lt;/fieldset&gt;
+</span><span id="__span-14-19">  &lt;row&gt;
+</span><span id="__span-14-20">    &lt;panel&gt;
+</span><span id="__span-14-21">      &lt;title&gt;KB/min (Last 2 hours)&lt;/title&gt;
+</span><span id="__span-14-22">      &lt;chart&gt;
+</span><span id="__span-14-23">        &lt;search&gt;
+</span><span id="__span-14-24">          &lt;query&gt;index=&quot;_internal&quot; source=&quot;*metrics.log&quot; group=&quot;per_host_thruput&quot; series=&quot;$series$&quot;
+</span><span id="__span-14-25">  | eval MB=round((kb/1024),2)
+</span><span id="__span-14-26">  | timechart span=1m sum(MB) AS &quot;Total MB&quot;&lt;/query&gt;
+</span><span id="__span-14-27">          &lt;earliest&gt;-2h@h&lt;/earliest&gt;
+</span><span id="__span-14-28">          &lt;latest&gt;now&lt;/latest&gt;
+</span><span id="__span-14-29">        &lt;/search&gt;
+</span><span id="__span-14-30">        &lt;option name=&quot;charting.axisTitleX.visibility&quot;&gt;collapsed&lt;/option&gt;
+</span><span id="__span-14-31">        &lt;option name=&quot;charting.chart&quot;&gt;line&lt;/option&gt;
+</span><span id="__span-14-32">        &lt;option name=&quot;charting.drilldown&quot;&gt;none&lt;/option&gt;
+</span><span id="__span-14-33">        &lt;option name=&quot;charting.legend.placement&quot;&gt;bottom&lt;/option&gt;
+</span><span id="__span-14-34">      &lt;/chart&gt;
+</span><span id="__span-14-35">    &lt;/panel&gt;
+</span><span id="__span-14-36">  &lt;/row&gt;
+</span><span id="__span-14-37">  &lt;row&gt;
+</span><span id="__span-14-38">    &lt;panel&gt;
+</span><span id="__span-14-39">      &lt;title&gt;MB/hr Comparison (Last 24 hours)&lt;/title&gt;
+</span><span id="__span-14-40">      &lt;chart&gt;
+</span><span id="__span-14-41">        &lt;search&gt;
+</span><span id="__span-14-42">          &lt;query&gt;index=&quot;_internal&quot; source=&quot;*metrics.log&quot; group=&quot;per_host_thruput&quot; earliest=-24h latest=now series=$series$
+</span><span id="__span-14-43">  | bin _time span=1h
+</span><span id="__span-14-44">  | stats sum(kb) AS kb_today by _time
+</span><span id="__span-14-45">  | join _time [ search index=&quot;_internal&quot; source=&quot;*metrics.log&quot; group=&quot;per_host_thruput&quot; earliest=-168h latest=-144h series=$series$
+</span><span id="__span-14-46">  | bin _time span=1h
+</span><span id="__span-14-47">  | eval _time=(_time + 518400)
+</span><span id="__span-14-48">  | rename host AS series
+</span><span id="__span-14-49">  | stats sum(kb) AS kb_week_ago by _time ]
+</span><span id="__span-14-50">  | eval Mb_today=round((kb_today/1024),1), Mb_week_ago=round((kb_week_ago/1024),1), Mb_diff=abs(Mb_today - Mb_week_ago)
+</span><span id="__span-14-51">  | timechart max(Mb_today) AS &quot;MB/hr (last 24 hours)&quot; max(Mb_week_ago) AS &quot;MB/hr (1 week ago)&quot; max(Mb_diff) AS &quot;MB/hr difference&quot; span=1h&lt;/query&gt;
+</span><span id="__span-14-52">          &lt;earliest&gt;-24h@h&lt;/earliest&gt;
+</span><span id="__span-14-53">          &lt;latest&gt;now&lt;/latest&gt;
+</span><span id="__span-14-54">        &lt;/search&gt;
+</span><span id="__span-14-55">        &lt;option name=&quot;charting.axisLabelsX.majorLabelStyle.overflowMode&quot;&gt;ellipsisNone&lt;/option&gt;
+</span><span id="__span-14-56">        &lt;option name=&quot;charting.axisLabelsX.majorLabelStyle.rotation&quot;&gt;0&lt;/option&gt;
+</span><span id="__span-14-57">        &lt;option name=&quot;charting.axisTitleX.visibility&quot;&gt;collapsed&lt;/option&gt;
+</span><span id="__span-14-58">        &lt;option name=&quot;charting.axisTitleY.visibility&quot;&gt;visible&lt;/option&gt;
+</span><span id="__span-14-59">        &lt;option name=&quot;charting.axisTitleY2.visibility&quot;&gt;visible&lt;/option&gt;
+</span><span id="__span-14-60">        &lt;option name=&quot;charting.axisX.scale&quot;&gt;linear&lt;/option&gt;
+</span><span id="__span-14-61">        &lt;option name=&quot;charting.axisY.minimumNumber&quot;&gt;0&lt;/option&gt;
+</span><span id="__span-14-62">        &lt;option name=&quot;charting.axisY.scale&quot;&gt;linear&lt;/option&gt;
+</span><span id="__span-14-63">        &lt;option name=&quot;charting.axisY2.enabled&quot;&gt;0&lt;/option&gt;
+</span><span id="__span-14-64">        &lt;option name=&quot;charting.axisY2.scale&quot;&gt;inherit&lt;/option&gt;
+</span><span id="__span-14-65">        &lt;option name=&quot;charting.chart&quot;&gt;column&lt;/option&gt;
+</span><span id="__span-14-66">        &lt;option name=&quot;charting.chart.bubbleMaximumSize&quot;&gt;50&lt;/option&gt;
+</span><span id="__span-14-67">        &lt;option name=&quot;charting.chart.bubbleMinimumSize&quot;&gt;10&lt;/option&gt;
+</span><span id="__span-14-68">        &lt;option name=&quot;charting.chart.bubbleSizeBy&quot;&gt;area&lt;/option&gt;
+</span><span id="__span-14-69">        &lt;option name=&quot;charting.chart.nullValueMode&quot;&gt;zero&lt;/option&gt;
+</span><span id="__span-14-70">        &lt;option name=&quot;charting.chart.overlayFields&quot;&gt;&quot;MB/hr difference&quot;&lt;/option&gt;
+</span><span id="__span-14-71">        &lt;option name=&quot;charting.chart.showDataLabels&quot;&gt;none&lt;/option&gt;
+</span><span id="__span-14-72">        &lt;option name=&quot;charting.chart.sliceCollapsingThreshold&quot;&gt;0.01&lt;/option&gt;
+</span><span id="__span-14-73">        &lt;option name=&quot;charting.chart.stackMode&quot;&gt;default&lt;/option&gt;
+</span><span id="__span-14-74">        &lt;option name=&quot;charting.chart.style&quot;&gt;shiny&lt;/option&gt;
+</span><span id="__span-14-75">        &lt;option name=&quot;charting.drilldown&quot;&gt;all&lt;/option&gt;
+</span><span id="__span-14-76">        &lt;option name=&quot;charting.layout.splitSeries&quot;&gt;0&lt;/option&gt;
+</span><span id="__span-14-77">        &lt;option name=&quot;charting.layout.splitSeries.allowIndependentYRanges&quot;&gt;0&lt;/option&gt;
+</span><span id="__span-14-78">        &lt;option name=&quot;charting.legend.labelStyle.overflowMode&quot;&gt;ellipsisMiddle&lt;/option&gt;
+</span><span id="__span-14-79">        &lt;option name=&quot;charting.legend.placement&quot;&gt;bottom&lt;/option&gt;
+</span><span id="__span-14-80">        &lt;option name=&quot;charting.fieldColors&quot;&gt;{&quot;MB/hr (last 24 hours)&quot;: 0xC7D8C6, &quot;MB/hr (1 week ago)&quot;: 0xEFD9C1, &quot;MB/hr difference&quot;:0xAF473C}&lt;/option&gt;
+</span><span id="__span-14-81">      &lt;/chart&gt;
+</span><span id="__span-14-82">    &lt;/panel&gt;
+</span><span id="__span-14-83">  &lt;/row&gt;
+</span><span id="__span-14-84">  &lt;row&gt;
+</span><span id="__span-14-85">    &lt;panel&gt;
+</span><span id="__span-14-86">      &lt;title&gt;Data Points/hr (Last 24 hours)&lt;/title&gt;
+</span><span id="__span-14-87">      &lt;chart&gt;
+</span><span id="__span-14-88">        &lt;search&gt;
+</span><span id="__span-14-89">          &lt;query&gt;index!=&quot;_internal&quot; earliest=-24h latest=now host=$series$
+</span><span id="__span-14-90">  | bin _time span=1h
+</span><span id="__span-14-91">  | eval time_and_source=(_time . &quot;:&quot; . source)
+</span><span id="__span-14-92">  | stats count AS count_today by time_and_source
+</span><span id="__span-14-93">  | rex field=time_and_source &quot;(?&amp;lt;_time&amp;gt;\d+):(?&amp;lt;source&amp;gt;.+$)&quot;
+</span><span id="__span-14-94">  | timechart max(count_today) AS &quot;Current Data Points&quot; BY source span=1h useother=f&lt;/query&gt;
+</span><span id="__span-14-95">          &lt;earliest&gt;-24h@h&lt;/earliest&gt;
+</span><span id="__span-14-96">          &lt;latest&gt;now&lt;/latest&gt;
+</span><span id="__span-14-97">        &lt;/search&gt;
+</span><span id="__span-14-98">        &lt;option name=&quot;charting.axisLabelsX.majorLabelStyle.overflowMode&quot;&gt;ellipsisNone&lt;/option&gt;
+</span><span id="__span-14-99">        &lt;option name=&quot;charting.axisLabelsX.majorLabelStyle.rotation&quot;&gt;0&lt;/option&gt;
+</span><span id="__span-14-100">        &lt;option name=&quot;charting.axisLabelsY2.majorUnit&quot;&gt;5&lt;/option&gt;
+</span><span id="__span-14-101">        &lt;option name=&quot;charting.axisTitleX.text&quot;&gt;/Current Data Points&lt;/option&gt;
+</span><span id="__span-14-102">        &lt;option name=&quot;charting.axisTitleX.visibility&quot;&gt;collapsed&lt;/option&gt;
+</span><span id="__span-14-103">        &lt;option name=&quot;charting.axisTitleY.text&quot;&gt;Data Points/hr&lt;/option&gt;
+</span><span id="__span-14-104">        &lt;option name=&quot;charting.axisTitleY.visibility&quot;&gt;visible&lt;/option&gt;
+</span><span id="__span-14-105">        &lt;option name=&quot;charting.axisTitleY2.text&quot;&gt;# of Sources&lt;/option&gt;
+</span><span id="__span-14-106">        &lt;option name=&quot;charting.axisTitleY2.visibility&quot;&gt;visible&lt;/option&gt;
+</span><span id="__span-14-107">        &lt;option name=&quot;charting.axisX.scale&quot;&gt;linear&lt;/option&gt;
+</span><span id="__span-14-108">        &lt;option name=&quot;charting.axisY.minimumNumber&quot;&gt;0&lt;/option&gt;
+</span><span id="__span-14-109">        &lt;option name=&quot;charting.axisY.scale&quot;&gt;linear&lt;/option&gt;
+</span><span id="__span-14-110">        &lt;option name=&quot;charting.axisY2.enabled&quot;&gt;1&lt;/option&gt;
+</span><span id="__span-14-111">        &lt;option name=&quot;charting.axisY2.minimumNumber&quot;&gt;0&lt;/option&gt;
+</span><span id="__span-14-112">        &lt;option name=&quot;charting.axisY2.scale&quot;&gt;linear&lt;/option&gt;
+</span><span id="__span-14-113">        &lt;option name=&quot;charting.chart&quot;&gt;column&lt;/option&gt;
+</span><span id="__span-14-114">        &lt;option name=&quot;charting.chart.bubbleMaximumSize&quot;&gt;50&lt;/option&gt;
+</span><span id="__span-14-115">        &lt;option name=&quot;charting.chart.bubbleMinimumSize&quot;&gt;10&lt;/option&gt;
+</span><span id="__span-14-116">        &lt;option name=&quot;charting.chart.bubbleSizeBy&quot;&gt;area&lt;/option&gt;
+</span><span id="__span-14-117">        &lt;option name=&quot;charting.chart.nullValueMode&quot;&gt;connect&lt;/option&gt;
+</span><span id="__span-14-118">        &lt;option name=&quot;charting.chart.overlayFields&quot;&gt;&quot;Number of sources (last 24 hours)&quot;,&quot;Number of sources (1 week ago)&quot;&lt;/option&gt;
+</span><span id="__span-14-119">        &lt;option name=&quot;charting.chart.showDataLabels&quot;&gt;none&lt;/option&gt;
+</span><span id="__span-14-120">        &lt;option name=&quot;charting.chart.sliceCollapsingThreshold&quot;&gt;0.01&lt;/option&gt;
+</span><span id="__span-14-121">        &lt;option name=&quot;charting.chart.stackMode&quot;&gt;stacked&lt;/option&gt;
+</span><span id="__span-14-122">        &lt;option name=&quot;charting.chart.style&quot;&gt;shiny&lt;/option&gt;
+</span><span id="__span-14-123">        &lt;option name=&quot;charting.drilldown&quot;&gt;none&lt;/option&gt;
+</span><span id="__span-14-124">        &lt;option name=&quot;charting.layout.splitSeries&quot;&gt;0&lt;/option&gt;
+</span><span id="__span-14-125">        &lt;option name=&quot;charting.layout.splitSeries.allowIndependentYRanges&quot;&gt;0&lt;/option&gt;
+</span><span id="__span-14-126">        &lt;option name=&quot;charting.legend.labelStyle.overflowMode&quot;&gt;ellipsisStart&lt;/option&gt;
+</span><span id="__span-14-127">        &lt;option name=&quot;charting.legend.placement&quot;&gt;bottom&lt;/option&gt;
+</span><span id="__span-14-128">      &lt;/chart&gt;
+</span><span id="__span-14-129">    &lt;/panel&gt;
+</span><span id="__span-14-130">    &lt;panel&gt;
+</span><span id="__span-14-131">      &lt;title&gt;Data Points/hr (1 week ago)&lt;/title&gt;
+</span><span id="__span-14-132">      &lt;chart&gt;
+</span><span id="__span-14-133">        &lt;search&gt;
+</span><span id="__span-14-134">          &lt;query&gt;index!=&quot;_internal&quot; earliest=-168h latest=-144h host=$series$
+</span><span id="__span-14-135">  | bin _time span=1h
+</span><span id="__span-14-136">  | eval time_and_source=(_time . &quot;:&quot; . source)
+</span><span id="__span-14-137">  | stats count AS count_previous by time_and_source
+</span><span id="__span-14-138">  | rex field=time_and_source &quot;(?&amp;lt;_time&amp;gt;\d+):(?&amp;lt;source&amp;gt;.+$)&quot;
+</span><span id="__span-14-139">  | timechart max(count_previous) AS &quot;Data Points (1 week ago)&quot; BY source span=1h useother=f&lt;/query&gt;
+</span><span id="__span-14-140">          &lt;earliest&gt;-24h@h&lt;/earliest&gt;
+</span><span id="__span-14-141">          &lt;latest&gt;now&lt;/latest&gt;
+</span><span id="__span-14-142">        &lt;/search&gt;
+</span><span id="__span-14-143">        &lt;option name=&quot;charting.axisLabelsX.majorLabelStyle.overflowMode&quot;&gt;ellipsisNone&lt;/option&gt;
+</span><span id="__span-14-144">        &lt;option name=&quot;charting.axisLabelsX.majorLabelStyle.rotation&quot;&gt;0&lt;/option&gt;
+</span><span id="__span-14-145">        &lt;option name=&quot;charting.axisTitleX.visibility&quot;&gt;collapsed&lt;/option&gt;
+</span><span id="__span-14-146">        &lt;option name=&quot;charting.axisTitleY.text&quot;&gt;Data Points/hr&lt;/option&gt;
+</span><span id="__span-14-147">        &lt;option name=&quot;charting.axisTitleY.visibility&quot;&gt;visible&lt;/option&gt;
+</span><span id="__span-14-148">        &lt;option name=&quot;charting.axisTitleY2.visibility&quot;&gt;visible&lt;/option&gt;
+</span><span id="__span-14-149">        &lt;option name=&quot;charting.axisX.scale&quot;&gt;linear&lt;/option&gt;
+</span><span id="__span-14-150">        &lt;option name=&quot;charting.axisY.minimumNumber&quot;&gt;0&lt;/option&gt;
+</span><span id="__span-14-151">        &lt;option name=&quot;charting.axisY.scale&quot;&gt;linear&lt;/option&gt;
+</span><span id="__span-14-152">        &lt;option name=&quot;charting.axisY2.enabled&quot;&gt;0&lt;/option&gt;
+</span><span id="__span-14-153">        &lt;option name=&quot;charting.axisY2.scale&quot;&gt;inherit&lt;/option&gt;
+</span><span id="__span-14-154">        &lt;option name=&quot;charting.chart&quot;&gt;column&lt;/option&gt;
+</span><span id="__span-14-155">        &lt;option name=&quot;charting.chart.bubbleMaximumSize&quot;&gt;50&lt;/option&gt;
+</span><span id="__span-14-156">        &lt;option name=&quot;charting.chart.bubbleMinimumSize&quot;&gt;10&lt;/option&gt;
+</span><span id="__span-14-157">        &lt;option name=&quot;charting.chart.bubbleSizeBy&quot;&gt;area&lt;/option&gt;
+</span><span id="__span-14-158">        &lt;option name=&quot;charting.chart.nullValueMode&quot;&gt;gaps&lt;/option&gt;
+</span><span id="__span-14-159">        &lt;option name=&quot;charting.chart.showDataLabels&quot;&gt;none&lt;/option&gt;
+</span><span id="__span-14-160">        &lt;option name=&quot;charting.chart.sliceCollapsingThreshold&quot;&gt;0.01&lt;/option&gt;
+</span><span id="__span-14-161">        &lt;option name=&quot;charting.chart.stackMode&quot;&gt;stacked&lt;/option&gt;
+</span><span id="__span-14-162">        &lt;option name=&quot;charting.chart.style&quot;&gt;shiny&lt;/option&gt;
+</span><span id="__span-14-163">        &lt;option name=&quot;charting.drilldown&quot;&gt;none&lt;/option&gt;
+</span><span id="__span-14-164">        &lt;option name=&quot;charting.layout.splitSeries&quot;&gt;0&lt;/option&gt;
+</span><span id="__span-14-165">        &lt;option name=&quot;charting.layout.splitSeries.allowIndependentYRanges&quot;&gt;0&lt;/option&gt;
+</span><span id="__span-14-166">        &lt;option name=&quot;charting.legend.labelStyle.overflowMode&quot;&gt;ellipsisStart&lt;/option&gt;
+</span><span id="__span-14-167">        &lt;option name=&quot;charting.legend.placement&quot;&gt;bottom&lt;/option&gt;
+</span><span id="__span-14-168">      &lt;/chart&gt;
+</span><span id="__span-14-169">    &lt;/panel&gt;
+</span><span id="__span-14-170">  &lt;/row&gt;
+</span><span id="__span-14-171">  &lt;row&gt;
+</span><span id="__span-14-172">    &lt;panel&gt;
+</span><span id="__span-14-173">      &lt;title&gt;Data Points/day (Last 7 days)&lt;/title&gt;
+</span><span id="__span-14-174">      &lt;chart&gt;
+</span><span id="__span-14-175">        &lt;search&gt;
+</span><span id="__span-14-176">          &lt;query&gt;index!=&quot;_internal&quot; earliest=-7d latest=now host=$series$
+</span><span id="__span-14-177">  | bin _time span=1d
+</span><span id="__span-14-178">  | eval time_and_source=(_time . &quot;:&quot; . source)
+</span><span id="__span-14-179">  | stats count AS count_today by time_and_source
+</span><span id="__span-14-180">  | rex field=time_and_source &quot;(?&amp;lt;_time&amp;gt;\d+):(?&amp;lt;source&amp;gt;.+$)&quot;
+</span><span id="__span-14-181">  | timechart max(count_today) AS &quot;Current Data Points&quot; BY source span=1d useother=f&lt;/query&gt;
+</span><span id="__span-14-182">          &lt;earliest&gt;-4h@m&lt;/earliest&gt;
+</span><span id="__span-14-183">          &lt;latest&gt;now&lt;/latest&gt;
+</span><span id="__span-14-184">        &lt;/search&gt;
+</span><span id="__span-14-185">        &lt;option name=&quot;charting.axisTitleX.visibility&quot;&gt;collapsed&lt;/option&gt;
+</span><span id="__span-14-186">        &lt;option name=&quot;charting.chart&quot;&gt;column&lt;/option&gt;
+</span><span id="__span-14-187">        &lt;option name=&quot;charting.chart.showDataLabels&quot;&gt;none&lt;/option&gt;
+</span><span id="__span-14-188">        &lt;option name=&quot;charting.chart.stackMode&quot;&gt;stacked&lt;/option&gt;
+</span><span id="__span-14-189">        &lt;option name=&quot;charting.drilldown&quot;&gt;none&lt;/option&gt;
+</span><span id="__span-14-190">        &lt;option name=&quot;charting.layout.splitSeries&quot;&gt;0&lt;/option&gt;
+</span><span id="__span-14-191">        &lt;option name=&quot;charting.legend.placement&quot;&gt;bottom&lt;/option&gt;
+</span><span id="__span-14-192">      &lt;/chart&gt;
+</span><span id="__span-14-193">    &lt;/panel&gt;
+</span><span id="__span-14-194">  &lt;/row&gt;
+</span><span id="__span-14-195">  &lt;row&gt;
+</span><span id="__span-14-196">    &lt;panel&gt;
+</span><span id="__span-14-197">      &lt;title&gt;Data Points/day (Last 30 days)&lt;/title&gt;
+</span><span id="__span-14-198">      &lt;chart&gt;
+</span><span id="__span-14-199">        &lt;search&gt;
+</span><span id="__span-14-200">          &lt;query&gt;index!=&quot;_internal&quot; earliest=-30d latest=now host=$series$
+</span><span id="__span-14-201">  | bin _time span=1d
+</span><span id="__span-14-202">  | eval time_and_source=(_time . &quot;:&quot; . source)
+</span><span id="__span-14-203">  | stats count AS count_today by time_and_source
+</span><span id="__span-14-204">  | rex field=time_and_source &quot;(?&amp;lt;_time&amp;gt;\d+):(?&amp;lt;source&amp;gt;.+$)&quot;
+</span><span id="__span-14-205">  | timechart max(count_today) AS &quot;Current Data Points&quot; BY source span=1d useother=f&lt;/query&gt;
+</span><span id="__span-14-206">          &lt;earliest&gt;$earliest$&lt;/earliest&gt;
+</span><span id="__span-14-207">          &lt;latest&gt;$latest$&lt;/latest&gt;
+</span><span id="__span-14-208">        &lt;/search&gt;
+</span><span id="__span-14-209">        &lt;option name=&quot;charting.axisTitleX.visibility&quot;&gt;collapsed&lt;/option&gt;
+</span><span id="__span-14-210">        &lt;option name=&quot;charting.chart&quot;&gt;column&lt;/option&gt;
+</span><span id="__span-14-211">        &lt;option name=&quot;charting.chart.stackMode&quot;&gt;stacked&lt;/option&gt;
+</span><span id="__span-14-212">        &lt;option name=&quot;charting.drilldown&quot;&gt;none&lt;/option&gt;
+</span><span id="__span-14-213">        &lt;option name=&quot;charting.legend.placement&quot;&gt;bottom&lt;/option&gt;
+</span><span id="__span-14-214">      &lt;/chart&gt;
+</span><span id="__span-14-215">    &lt;/panel&gt;
+</span><span id="__span-14-216">  &lt;/row&gt;
+</span><span id="__span-14-217">&lt;/form&gt;
+</span></code></pre></div>
+<h3 id="splunk-data-volume-investigation-by-source">Splunk Data Volume Investigation by Source</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1">&lt;form&gt;
+</span><span id="__span-15-2">  &lt;label&gt;Splunk Data Volume Investigation by Source&lt;/label&gt;
+</span><span id="__span-15-3">  &lt;description&gt;License Usage by Source - Last 7 Days. Use this to determine where the source is breaching License Usage&lt;/description&gt;
+</span><span id="__span-15-4">  &lt;fieldset submitButton=&quot;false&quot;&gt;
+</span><span id="__span-15-5">    &lt;input type=&quot;dropdown&quot; token=&quot;series&quot; searchWhenChanged=&quot;true&quot;&gt;
+</span><span id="__span-15-6">      &lt;label&gt;Source&lt;/label&gt;
+</span><span id="__span-15-7">      &lt;search&gt;
+</span><span id="__span-15-8">        &lt;query&gt;index=&quot;_internal&quot; source=&quot;*metrics.log&quot; group=&quot;per_source_thruput&quot; | dedup series | sort series asc | table series&lt;/query&gt;
+</span><span id="__span-15-9">        &lt;earliest&gt;-7d@h&lt;/earliest&gt;
+</span><span id="__span-15-10">        &lt;latest&gt;now&lt;/latest&gt;
+</span><span id="__span-15-11">      &lt;/search&gt;
+</span><span id="__span-15-12">      &lt;fieldForLabel&gt;series&lt;/fieldForLabel&gt;
+</span><span id="__span-15-13">      &lt;fieldForValue&gt;series&lt;/fieldForValue&gt;
+</span><span id="__span-15-14">    &lt;/input&gt;
+</span><span id="__span-15-15">  &lt;/fieldset&gt;
+</span><span id="__span-15-16">  &lt;row&gt;
+</span><span id="__span-15-17">    &lt;panel&gt;
+</span><span id="__span-15-18">      &lt;title&gt;KB/min (Last 2 hours)&lt;/title&gt;
+</span><span id="__span-15-19">      &lt;chart&gt;
+</span><span id="__span-15-20">        &lt;search&gt;
+</span><span id="__span-15-21">          &lt;query&gt;index=&quot;_internal&quot; source=&quot;*metrics.log&quot; group=&quot;per_source_thruput&quot; series=&quot;$series$&quot;
+</span><span id="__span-15-22">  | eval MB=round((kb/1024),2)
+</span><span id="__span-15-23">  | timechart span=1m sum(MB) AS &quot;Total MB&quot;&lt;/query&gt;
+</span><span id="__span-15-24">          &lt;earliest&gt;-2h@h&lt;/earliest&gt;
+</span><span id="__span-15-25">          &lt;latest&gt;now&lt;/latest&gt;
+</span><span id="__span-15-26">        &lt;/search&gt;
+</span><span id="__span-15-27">        &lt;option name=&quot;charting.chart&quot;&gt;line&lt;/option&gt;
+</span><span id="__span-15-28">        &lt;option name=&quot;charting.drilldown&quot;&gt;none&lt;/option&gt;
+</span><span id="__span-15-29">        &lt;option name=&quot;charting.legend.placement&quot;&gt;bottom&lt;/option&gt;
+</span><span id="__span-15-30">      &lt;/chart&gt;
+</span><span id="__span-15-31">    &lt;/panel&gt;
+</span><span id="__span-15-32">  &lt;/row&gt;
+</span><span id="__span-15-33">  &lt;row&gt;
+</span><span id="__span-15-34">    &lt;panel&gt;
+</span><span id="__span-15-35">      &lt;chart&gt;
+</span><span id="__span-15-36">        &lt;title&gt;MB/hr Comparison&lt;/title&gt;
+</span><span id="__span-15-37">        &lt;search&gt;
+</span><span id="__span-15-38">          &lt;query&gt;index=&quot;_internal&quot; source=&quot;*metrics.log&quot; group=&quot;per_source_thruput&quot; earliest=-24h latest=now series=$series$
+</span><span id="__span-15-39"> | bin _time span=1h
+</span><span id="__span-15-40"> | stats sum(kb) AS kb_today by _time
+</span><span id="__span-15-41"> | join _time [ search index=&quot;_internal&quot; source=&quot;*metrics.log&quot; group=&quot;per_source_thruput&quot; earliest=-168h latest=-144h series=$series$
+</span><span id="__span-15-42"> | bin _time span=1h
+</span><span id="__span-15-43"> | eval _time=(_time + 518400)
+</span><span id="__span-15-44"> | rename host AS series
+</span><span id="__span-15-45"> | stats sum(kb) AS kb_week_ago by _time ]
+</span><span id="__span-15-46"> | eval Mb_today=round((kb_today/1024),1), Mb_week_ago=round((kb_week_ago/1024),1), Mb_diff=abs(Mb_today - Mb_week_ago)
+</span><span id="__span-15-47"> | timechart max(Mb_today) AS &quot;MB/hr (last 24 hours)&quot; max(Mb_week_ago) AS &quot;MB/hr (1 week ago)&quot; max(Mb_diff) AS &quot;MB/hr difference&quot; span=1h&lt;/query&gt;
+</span><span id="__span-15-48">          &lt;earliest&gt;-24h@h&lt;/earliest&gt;
+</span><span id="__span-15-49">          &lt;latest&gt;now&lt;/latest&gt;
+</span><span id="__span-15-50">        &lt;/search&gt;
+</span><span id="__span-15-51">        &lt;option name=&quot;charting.axisLabelsX.majorLabelStyle.overflowMode&quot;&gt;ellipsisNone&lt;/option&gt;
+</span><span id="__span-15-52">        &lt;option name=&quot;charting.axisLabelsX.majorLabelStyle.rotation&quot;&gt;0&lt;/option&gt;
+</span><span id="__span-15-53">        &lt;option name=&quot;charting.axisTitleX.visibility&quot;&gt;collapsed&lt;/option&gt;
+</span><span id="__span-15-54">        &lt;option name=&quot;charting.axisTitleY.visibility&quot;&gt;visible&lt;/option&gt;
+</span><span id="__span-15-55">        &lt;option name=&quot;charting.axisTitleY2.visibility&quot;&gt;visible&lt;/option&gt;
+</span><span id="__span-15-56">        &lt;option name=&quot;charting.axisX.scale&quot;&gt;linear&lt;/option&gt;
+</span><span id="__span-15-57">        &lt;option name=&quot;charting.axisY.minimumNumber&quot;&gt;0&lt;/option&gt;
+</span><span id="__span-15-58">        &lt;option name=&quot;charting.axisY.scale&quot;&gt;linear&lt;/option&gt;
+</span><span id="__span-15-59">        &lt;option name=&quot;charting.axisY2.enabled&quot;&gt;0&lt;/option&gt;
+</span><span id="__span-15-60">        &lt;option name=&quot;charting.axisY2.scale&quot;&gt;inherit&lt;/option&gt;
+</span><span id="__span-15-61">        &lt;option name=&quot;charting.chart&quot;&gt;column&lt;/option&gt;
+</span><span id="__span-15-62">        &lt;option name=&quot;charting.chart.bubbleMaximumSize&quot;&gt;50&lt;/option&gt;
+</span><span id="__span-15-63">        &lt;option name=&quot;charting.chart.bubbleMinimumSize&quot;&gt;10&lt;/option&gt;
+</span><span id="__span-15-64">        &lt;option name=&quot;charting.chart.bubbleSizeBy&quot;&gt;area&lt;/option&gt;
+</span><span id="__span-15-65">        &lt;option name=&quot;charting.chart.nullValueMode&quot;&gt;zero&lt;/option&gt;
+</span><span id="__span-15-66">        &lt;option name=&quot;charting.chart.overlayFields&quot;&gt;&quot;MB/hr difference&quot;&lt;/option&gt;
+</span><span id="__span-15-67">        &lt;option name=&quot;charting.chart.showDataLabels&quot;&gt;none&lt;/option&gt;
+</span><span id="__span-15-68">        &lt;option name=&quot;charting.chart.sliceCollapsingThreshold&quot;&gt;0.01&lt;/option&gt;
+</span><span id="__span-15-69">        &lt;option name=&quot;charting.chart.stackMode&quot;&gt;default&lt;/option&gt;
+</span><span id="__span-15-70">        &lt;option name=&quot;charting.chart.style&quot;&gt;shiny&lt;/option&gt;
+</span><span id="__span-15-71">        &lt;option name=&quot;charting.drilldown&quot;&gt;all&lt;/option&gt;
+</span><span id="__span-15-72">        &lt;option name=&quot;charting.layout.splitSeries&quot;&gt;0&lt;/option&gt;
+</span><span id="__span-15-73">        &lt;option name=&quot;charting.layout.splitSeries.allowIndependentYRanges&quot;&gt;0&lt;/option&gt;
+</span><span id="__span-15-74">        &lt;option name=&quot;charting.legend.labelStyle.overflowMode&quot;&gt;ellipsisMiddle&lt;/option&gt;
+</span><span id="__span-15-75">        &lt;option name=&quot;charting.legend.placement&quot;&gt;bottom&lt;/option&gt;
+</span><span id="__span-15-76">      &lt;/chart&gt;
+</span><span id="__span-15-77">    &lt;/panel&gt;
+</span><span id="__span-15-78">  &lt;/row&gt;
+</span><span id="__span-15-79">  &lt;row&gt;
+</span><span id="__span-15-80">    &lt;panel&gt;
+</span><span id="__span-15-81">      &lt;chart&gt;
+</span><span id="__span-15-82">        &lt;title&gt;Data Points/hr (Last 24 hours) by Host&lt;/title&gt;
+</span><span id="__span-15-83">        &lt;search&gt;
+</span><span id="__span-15-84">          &lt;query&gt;index!=&quot;_internal&quot; earliest=-24h latest=now source=$series$
+</span><span id="__span-15-85">| bin _time span=1h | eval time_and_host=(_time . &quot;:&quot; . host)
+</span><span id="__span-15-86">| stats count AS count_today by time_and_host
+</span><span id="__span-15-87">| rex field=time_and_host &quot;(?&amp;lt;_time&amp;gt;\d+):(?&amp;lt;host&amp;gt;.+$)&quot;
+</span><span id="__span-15-88">| timechart max(count_today) AS &quot;Current Data Points&quot; BY host span=1h useother=f&lt;/query&gt;
+</span><span id="__span-15-89">          &lt;earliest&gt;-24h@h&lt;/earliest&gt;
+</span><span id="__span-15-90">          &lt;latest&gt;now&lt;/latest&gt;
+</span><span id="__span-15-91">        &lt;/search&gt;
+</span><span id="__span-15-92">        &lt;option name=&quot;charting.axisLabelsX.majorLabelStyle.overflowMode&quot;&gt;ellipsisNone&lt;/option&gt;
+</span><span id="__span-15-93">        &lt;option name=&quot;charting.axisLabelsX.majorLabelStyle.rotation&quot;&gt;0&lt;/option&gt;
+</span><span id="__span-15-94">        &lt;option name=&quot;charting.axisLabelsY2.majorUnit&quot;&gt;5&lt;/option&gt;
+</span><span id="__span-15-95">        &lt;option name=&quot;charting.axisTitleX.visibility&quot;&gt;collapsed&lt;/option&gt;
+</span><span id="__span-15-96">        &lt;option name=&quot;charting.axisTitleY.text&quot;&gt;Data Points/hr&lt;/option&gt;
+</span><span id="__span-15-97">        &lt;option name=&quot;charting.axisTitleY.visibility&quot;&gt;visible&lt;/option&gt;
+</span><span id="__span-15-98">        &lt;option name=&quot;charting.axisTitleY2.text&quot;&gt;# of Sources&lt;/option&gt;
+</span><span id="__span-15-99">        &lt;option name=&quot;charting.axisTitleY2.visibility&quot;&gt;visible&lt;/option&gt;
+</span><span id="__span-15-100">        &lt;option name=&quot;charting.axisX.scale&quot;&gt;linear&lt;/option&gt;
+</span><span id="__span-15-101">        &lt;option name=&quot;charting.axisY.minimumNumber&quot;&gt;0&lt;/option&gt;
+</span><span id="__span-15-102">        &lt;option name=&quot;charting.axisY.scale&quot;&gt;linear&lt;/option&gt;
+</span><span id="__span-15-103">        &lt;option name=&quot;charting.axisY2.enabled&quot;&gt;1&lt;/option&gt;
+</span><span id="__span-15-104">        &lt;option name=&quot;charting.axisY2.minimumNumber&quot;&gt;0&lt;/option&gt;
+</span><span id="__span-15-105">        &lt;option name=&quot;charting.axisY2.scale&quot;&gt;linear&lt;/option&gt;
+</span><span id="__span-15-106">        &lt;option name=&quot;charting.chart&quot;&gt;column&lt;/option&gt;
+</span><span id="__span-15-107">        &lt;option name=&quot;charting.chart.bubbleMaximumSize&quot;&gt;50&lt;/option&gt;
+</span><span id="__span-15-108">        &lt;option name=&quot;charting.chart.bubbleMinimumSize&quot;&gt;10&lt;/option&gt;
+</span><span id="__span-15-109">        &lt;option name=&quot;charting.chart.bubbleSizeBy&quot;&gt;area&lt;/option&gt;
+</span><span id="__span-15-110">        &lt;option name=&quot;charting.chart.nullValueMode&quot;&gt;connect&lt;/option&gt;
+</span><span id="__span-15-111">        &lt;option name=&quot;charting.chart.overlayFields&quot;&gt;&quot;Number of sources (last 24 hours)&quot;,&quot;Number of sources (1 week ago)&quot;&lt;/option&gt;
+</span><span id="__span-15-112">        &lt;option name=&quot;charting.chart.showDataLabels&quot;&gt;none&lt;/option&gt;
+</span><span id="__span-15-113">        &lt;option name=&quot;charting.chart.sliceCollapsingThreshold&quot;&gt;0.01&lt;/option&gt;
+</span><span id="__span-15-114">        &lt;option name=&quot;charting.chart.stackMode&quot;&gt;stacked&lt;/option&gt;
+</span><span id="__span-15-115">        &lt;option name=&quot;charting.chart.style&quot;&gt;shiny&lt;/option&gt;
+</span><span id="__span-15-116">        &lt;option name=&quot;charting.drilldown&quot;&gt;none&lt;/option&gt;
+</span><span id="__span-15-117">        &lt;option name=&quot;charting.layout.splitSeries&quot;&gt;0&lt;/option&gt;
+</span><span id="__span-15-118">        &lt;option name=&quot;charting.layout.splitSeries.allowIndependentYRanges&quot;&gt;0&lt;/option&gt;
+</span><span id="__span-15-119">        &lt;option name=&quot;charting.legend.labelStyle.overflowMode&quot;&gt;ellipsisStart&lt;/option&gt;
+</span><span id="__span-15-120">        &lt;option name=&quot;charting.legend.placement&quot;&gt;bottom&lt;/option&gt;
+</span><span id="__span-15-121">      &lt;/chart&gt;
+</span><span id="__span-15-122">    &lt;/panel&gt;
+</span><span id="__span-15-123">    &lt;panel&gt;
+</span><span id="__span-15-124">      &lt;chart&gt;
+</span><span id="__span-15-125">        &lt;title&gt;Data Points/hr (1 week ago)&lt;/title&gt;
+</span><span id="__span-15-126">        &lt;search&gt;
+</span><span id="__span-15-127">          &lt;query&gt;index!=&quot;_internal&quot; earliest=-168h latest=-144h source=$series$
+</span><span id="__span-15-128">| bin _time span=1h | eval time_and_host=(_time . &quot;:&quot; . host)
+</span><span id="__span-15-129">| stats count AS count_today by time_and_host
+</span><span id="__span-15-130">| rex field=time_and_host &quot;(?&amp;lt;_time&amp;gt;\d+):(?&amp;lt;host&amp;gt;.+$)&quot;
+</span><span id="__span-15-131">| timechart max(count_today) AS &quot;Current Data Points&quot; BY host span=1h useother=f&lt;/query&gt;
+</span><span id="__span-15-132">          &lt;earliest&gt;-24h@h&lt;/earliest&gt;
+</span><span id="__span-15-133">          &lt;latest&gt;now&lt;/latest&gt;
+</span><span id="__span-15-134">        &lt;/search&gt;
+</span><span id="__span-15-135">        &lt;option name=&quot;charting.axisLabelsX.majorLabelStyle.overflowMode&quot;&gt;ellipsisNone&lt;/option&gt;
+</span><span id="__span-15-136">        &lt;option name=&quot;charting.axisLabelsX.majorLabelStyle.rotation&quot;&gt;0&lt;/option&gt;
+</span><span id="__span-15-137">        &lt;option name=&quot;charting.axisTitleX.visibility&quot;&gt;collapsed&lt;/option&gt;
+</span><span id="__span-15-138">        &lt;option name=&quot;charting.axisTitleY.visibility&quot;&gt;visible&lt;/option&gt;
+</span><span id="__span-15-139">        &lt;option name=&quot;charting.axisTitleY2.visibility&quot;&gt;visible&lt;/option&gt;
+</span><span id="__span-15-140">        &lt;option name=&quot;charting.axisX.scale&quot;&gt;linear&lt;/option&gt;
+</span><span id="__span-15-141">        &lt;option name=&quot;charting.axisY.scale&quot;&gt;linear&lt;/option&gt;
+</span><span id="__span-15-142">        &lt;option name=&quot;charting.axisY2.enabled&quot;&gt;0&lt;/option&gt;
+</span><span id="__span-15-143">        &lt;option name=&quot;charting.axisY2.scale&quot;&gt;inherit&lt;/option&gt;
+</span><span id="__span-15-144">        &lt;option name=&quot;charting.chart&quot;&gt;column&lt;/option&gt;
+</span><span id="__span-15-145">        &lt;option name=&quot;charting.chart.bubbleMaximumSize&quot;&gt;50&lt;/option&gt;
+</span><span id="__span-15-146">        &lt;option name=&quot;charting.chart.bubbleMinimumSize&quot;&gt;10&lt;/option&gt;
+</span><span id="__span-15-147">        &lt;option name=&quot;charting.chart.bubbleSizeBy&quot;&gt;area&lt;/option&gt;
+</span><span id="__span-15-148">        &lt;option name=&quot;charting.chart.nullValueMode&quot;&gt;gaps&lt;/option&gt;
+</span><span id="__span-15-149">        &lt;option name=&quot;charting.chart.showDataLabels&quot;&gt;none&lt;/option&gt;
+</span><span id="__span-15-150">        &lt;option name=&quot;charting.chart.sliceCollapsingThreshold&quot;&gt;0.01&lt;/option&gt;
+</span><span id="__span-15-151">        &lt;option name=&quot;charting.chart.stackMode&quot;&gt;stacked&lt;/option&gt;
+</span><span id="__span-15-152">        &lt;option name=&quot;charting.chart.style&quot;&gt;shiny&lt;/option&gt;
+</span><span id="__span-15-153">        &lt;option name=&quot;charting.drilldown&quot;&gt;none&lt;/option&gt;
+</span><span id="__span-15-154">        &lt;option name=&quot;charting.layout.splitSeries&quot;&gt;0&lt;/option&gt;
+</span><span id="__span-15-155">        &lt;option name=&quot;charting.layout.splitSeries.allowIndependentYRanges&quot;&gt;0&lt;/option&gt;
+</span><span id="__span-15-156">        &lt;option name=&quot;charting.legend.labelStyle.overflowMode&quot;&gt;ellipsisStart&lt;/option&gt;
+</span><span id="__span-15-157">        &lt;option name=&quot;charting.legend.placement&quot;&gt;bottom&lt;/option&gt;
+</span><span id="__span-15-158">        &lt;option name=&quot;charting.axisY.minimumNumber&quot;&gt;0&lt;/option&gt;
+</span><span id="__span-15-159">        &lt;option name=&quot;charting.axisTitleY.text&quot;&gt;Data Points/hr&lt;/option&gt;
+</span><span id="__span-15-160">      &lt;/chart&gt;
+</span><span id="__span-15-161">    &lt;/panel&gt;
+</span><span id="__span-15-162">  &lt;/row&gt;
+</span><span id="__span-15-163">&lt;/form&gt;
+</span></code></pre></div>
+
+
+
+
+
+
+
+  
+    
+  
+  
+    
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="April 19, 2025 16:06:25"><span class="timeago" datetime="2025-04-19T16:06:25+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="April 19, 2025 16:06:25">2025-04-19</span>
+  </span>
+
+    
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Created">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="April 19, 2025 16:06:25"><span class="timeago" datetime="2025-04-19T16:06:25+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="April 19, 2025 16:06:25">2025-04-19</span>
+  </span>
+
+    
+    
+      
+  
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Contributors">
+      
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4"/></svg>
+      
+    </span>
+    <nav>
+      
+        <a href="mailto:silentglasses@proton.me">SilentGlasses</a>
+    </nav>
+  </span>
+
+    
+    
+  </aside>
+
+
+
+  
+
+
+
+      
+    </article>
+  </div>
+
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../../../..", "features": ["content.action.view", "content.code.annotate", "content.code.copy", "content.code.select", "content.tabs.link", "navigation.expand", "navigation.indexes", "navigation.instant", "navigation.instant.progress", "navigation.instant.preview", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../../../../../assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+        <script src="../../../../../js/timeago.min.js"></script>
+      
+        <script src="../../../../../js/timeago_mkdocs_material.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.js"></script>
+      
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>
