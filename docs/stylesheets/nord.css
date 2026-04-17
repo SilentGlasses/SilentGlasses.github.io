@@ -350,15 +350,13 @@ hr {
 }
 
 .md-typeset h3 {
-    font-size: 1.75em;
-    font-weight: 400;
+    font-size: 1.5em;
     line-height: 1.5;
     margin: 1.6em 0 0.8em;
 }
 
 .md-typeset h4 {
-  font-size: 1.5em;
-    font-weight: 700;
+  font-size: 1.25em;
     margin: 1em 0;
 }
 
@@ -451,9 +449,25 @@ hr {
     padding-left: 1.25em;
 }
 
-.md-typeset table {
-    border-collapse: collapse;
+/* Tables */
+.md-typeset__scrollwrap {
     width: 100%;
+    margin: 1em 0;
+}
+
+.md-typeset__table {
+    display: block;
+    width: 100%;
+    padding: 0;
+    overflow-x: auto;
+}
+
+.md-typeset__table table:not([class]),
+.md-typeset table:not([class]),
+.md-typeset table {
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
     margin: 1em 0;
 }
 
