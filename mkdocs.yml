@@ -53,8 +53,9 @@ theme:
 extra_css:
     - stylesheets/nord.css
 extra_javascript:
-  - https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.js
-  - https://unpkg.com/mermaid/dist/mermaid.min.js
+  - https://unpkg.com/mermaid@11/dist/mermaid.esm.min.mjs
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
 
 plugins:
   - search
@@ -107,6 +108,8 @@ markdown_extensions:
       user: squidfunk
       repo: mkdocs-material
   - pymdownx.mark
+  - pymdownx.arithmatex:
+      generic: true
   - pymdownx.pathconverter
   - pymdownx.saneheaders
   - pymdownx.smartsymbols
@@ -117,7 +120,7 @@ markdown_extensions:
       custom_fences:
         - name: mermaid
           class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_div_format
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.tabbed:
       alternate_style: true
   - pymdownx.tasklist:
