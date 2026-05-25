@@ -1,0 +1,2306 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Home of SilentGlasses">
+      
+      
+      
+      
+        <link rel="prev" href="../../../../2022/02/18/is-splunk-alerting/">
+      
+      
+        <link rel="next" href="../../../04/16/token-conscious-engineering/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="https://avatars.githubusercontent.com/u/22822565">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Metadata Harvesting Benefits, Risks, and Why “No Logs” Claims Fall Short - SilentGlasses Home</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../css/timeago.css">
+    
+      <link rel="stylesheet" href="../../../../../stylesheets/nord.css">
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#what-is-metadata-and-metadata-harvesting" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="SilentGlasses Home" class="md-header__button md-logo" aria-label="SilentGlasses Home" data-md-component="logo">
+      
+  <img src="https://avatars.githubusercontent.com/u/22822565" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            SilentGlasses Home
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Metadata Harvesting Benefits, Risks, and Why “No Logs” Claims Fall Short
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="SilentGlasses Home" class="md-nav__button md-logo" aria-label="SilentGlasses Home" data-md-component="logo">
+      
+  <img src="https://avatars.githubusercontent.com/u/22822565" alt="logo">
+
+    </a>
+    SilentGlasses Home
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Blog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archive
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2026/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    May 2026
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2022/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    February 2022
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2021/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    December 2021
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Categories
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Categories
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/ai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/administration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Administration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/cooking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cooking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/destiny/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Destiny
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/devops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DevOps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/engineering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Engineering
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/food/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Food
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/gaming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Gaming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/git/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Git
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/hardware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/observability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Observability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/privacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Privacy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/splunk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Splunk
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/utilities/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Utilities
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/macos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    macOS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-metadata-and-metadata-harvesting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Is Metadata and Metadata Harvesting?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What Is Metadata and Metadata Harvesting?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#benefits-of-metadata-harvesting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Benefits of Metadata Harvesting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#risks-and-concerns-in-metadata-harvesting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Risks and Concerns in Metadata Harvesting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#metadata-harvesting-in-practice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Metadata Harvesting in Practice
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-no-logs-or-local-ai-only-claims-dont-prevent-metadata-harvesting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why “No Logs” or “Local AI Only” Claims Don’t Prevent Metadata Harvesting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Why “No Logs” or “Local AI Only” Claims Don’t Prevent Metadata Harvesting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ecosystem-metadata-outside-core-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ecosystem Metadata Outside Core Logs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#metadata-in-encryption-contexts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Metadata in Encryption Contexts
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mitigations-and-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mitigations and Best Practices
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Mitigations and Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#technical-controls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Technical Controls
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#organizational-controls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Organizational Controls
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-vpns-often-create-a-false-sense-of-security-raw-data-vs-metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why VPNs Often Create a False Sense of Security: Raw Data vs. Metadata
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Why VPNs Often Create a False Sense of Security: Raw Data vs. Metadata">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-a-vpn-actually-protects" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What a VPN Actually Protects
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#metadata-that-vpns-do-not-eliminate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Metadata That VPNs Do Not Eliminate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vpns-shift-trust-they-do-not-remove-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VPNs Shift Trust — They Do Not Remove It
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vpns-vs-modern-tracking-and-fingerprinting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VPNs vs. Modern Tracking and Fingerprinting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-vpns-do-improve-privacy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When VPNs Do Improve Privacy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-vpn-marketing-and-reality-diverge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why VPN Marketing and Reality Diverge
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#risk-based-takeaway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Risk-Based Takeaway
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#raw-data-vs-metadata-protection-by-technology" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Raw Data vs. Metadata Protection by Technology
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#metadata-visibility-by-observer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Metadata Visibility by Observer
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#privacy-claims-vs-reality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Privacy Claims vs. Reality
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vpns-benefits-vs-risks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VPNs — Benefits vs. Risks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#threat-model-alignment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Threat Model Alignment
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#charts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Charts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Charts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-exposure-stack-raw-data-vs-metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Exposure Stack: Raw Data vs Metadata
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#observer-visibility-matrix-heatmap-style-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Observer Visibility Matrix (Heatmap-Style Table)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#metadata-leakage-despite-encryption-end-to-end-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Metadata Leakage Despite Encryption (End-to-End Flow)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#privacy-claims-vs-reality-conceptual-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Privacy Claims vs Reality (Conceptual Comparison)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#metadata-aggregation-risk-mosaic-effect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Metadata Aggregation Risk (Mosaic Effect)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-vpns-help-vs-hurt-decision-quadrant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When VPNs Help vs Hurt (Decision Quadrant)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conclusion
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resources
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../../../../" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+              <div class="md-post__authors md-typeset">
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://avatars.githubusercontent.com/u/22822565" alt="SilentGlasses">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          SilentGlasses
+                        
+                      </strong>
+                      <br>
+                      Administrator
+                    </span>
+                  </div>
+                
+              </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2026-01-22 05:33:00+00:00" class="md-ellipsis">January 22, 2026</time>
+                      </div>
+                    </li>
+                    
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 3v15h3V3zm3 2 4 13 3-1-4-13zM5 5v13h3V5zM3 19v2h18v-2z"/></svg>
+                          <span class="md-ellipsis">
+                            in
+                            
+                              <a href="../../../../category/security/">Security</a>, 
+                              <a href="../../../../category/privacy/">Privacy</a></span>
+                        </div>
+                      </li>
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              12 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+
+  <h1>Metadata Harvesting Benefits, Risks, and Why “No Logs” Claims Fall Short</h1>
+
+<p>Metadata harvesting is the process of automatically collecting descriptive data about other data ... for example, timestamps, geolocation tags, device identifiers, access logs, and relationships between data assets without necessarily extracting the underlying content itself. The practice underpins many modern data systems, from scholarly search engines and enterprise data catalogs to large-scale surveillance and profiling systems.</p>
+<!-- more -->
+
+<h2 id="what-is-metadata-and-metadata-harvesting">What Is Metadata and Metadata Harvesting?</h2>
+<p><strong>Metadata</strong> is “data about data”, structured information that describes attributes of a resource, such as title, author, creation time, format, relationships, location, and usage metrics. In information science, metadata enables search, classification, discovery, interoperability, and analytics.</p>
+<p><strong>Metadata harvesting</strong> refers to automated aggregation of metadata records from distributed sources into a centralized index or service. Protocols such as the <strong>Open Archives Initiative Protocol for Metadata Harvesting (OAI-PMH)</strong> formalize metadata harvesting in academic and archival contexts, enabling diverse digital libraries and repositories to expose metadata in standardized schemas like Dublin Core.</p>
+<p>In enterprise environments, metadata harvesting powers <strong>data catalogs</strong> and <strong>data lineage</strong> efforts by discovering schema, schema relationships, lineage, tags, and usage patterns across an organization’s data assets.</p>
+<h3 id="benefits-of-metadata-harvesting">Benefits of Metadata Harvesting</h3>
+<ul>
+<li><strong>Improved Discoverability and Searchability</strong>: Harvested metadata allows federated search over distributed collections without needing direct access to content. For example, academic repositories expose metadata via OAI-PMH so aggregator services (like CORE or institutional search portals) can index and unify records from many sources, improving research discoverability.</li>
+<li><strong>Interoperability and Standardization</strong>: Metadata harvesting drives interoperability in heterogeneous environments. By normalizing metadata with agreed schemas and protocols, systems built by different vendors can share descriptive information efficiently. This is especially important for digital libraries, cross-institution portals, and global research infrastructure.</li>
+<li><strong>Resource Efficiency and Analytics</strong>: Rather than moving full data objects, metadata harvesting enables efficient queries and analytics at scale. It supports predictive maintenance, inventory management, and automated catalog updates without deep content inspection.</li>
+</ul>
+<h3 id="risks-and-concerns-in-metadata-harvesting">Risks and Concerns in Metadata Harvesting</h3>
+<ul>
+<li><strong>Privacy and Re-identification Risk</strong>: Even without harvesting full content, metadata often carries sensitive information. For example, geolocation metadata embedded in photos or communications metadata reveal movement patterns, social graphs, and behavioral patterns. Researchers have shown that metadata can be sufficient to re-identify individuals or infer sensitive information, even when the underlying content is encrypted.</li>
+<li><strong>Mosaic Effect and Cross-Dataset Inference</strong>: Metadata aggregated across sources enables the mosaic effect—the cumulative combination of multiple data attributes to uniquely identify individuals. This effect means that ostensibly non-identifying fields (ZIP code, timestamps, device IDs) can be linked to reveal sensitive profiles when combined with auxiliary data.</li>
+<li><strong>Regulatory and Ethical Risks</strong>: Legal frameworks such as GDPR treat certain metadata as personal data if it identifies or relates to an identifiable person. Mass harvesting without adequate privacy controls risks non-compliance with data protection laws and can trigger regulatory penalties and litigation.</li>
+<li><strong>Quality, Bias, and Inconsistency</strong>: Metadata quality varies widely across sources. Inconsistent tagging, schema errors, missing fields, and malformed identifiers can reduce the utility of harvested metadata and mislead downstream analytics or governance processes.</li>
+</ul>
+<h3 id="metadata-harvesting-in-practice">Metadata Harvesting in Practice</h3>
+<ul>
+<li><strong>Open Research Discovery Platforms</strong>: Platforms like PubMed, arXiv, and institutional repositories expose metadata that is harvested via OAI-PMH or APIs into aggregated search services, improving access to scholarly records across silos.</li>
+<li><strong>News Aggregation and SEO Systems</strong>: News aggregators harvest headlines and metadata (e.g., publication time and topic tags) from RSS feeds and schema.org markup on publisher websites to power real-time content feeds and personalization.</li>
+<li><strong>Operational Technology Analytics</strong>: Enterprise platforms harvest metadata from sensors, logs, and file systems to enable proactive operations monitoring, trend analytics, and automation.</li>
+<li><strong>Consumer Surveillance and Profiling</strong>: Large platforms collect behavioral metadata (click streams, session durations, device identifiers) at scale. These metadata feeds power recommendation engines, ad auctions, profiling systems, and cross-service linkage that far exceed the simple functionality users expect.</li>
+</ul>
+<h2 id="why-no-logs-or-local-ai-only-claims-dont-prevent-metadata-harvesting">Why “No Logs” or “Local AI Only” Claims Don’t Prevent Metadata Harvesting</h2>
+<h3 id="ecosystem-metadata-outside-core-logs">Ecosystem Metadata Outside Core Logs</h3>
+<p>Promises like “we don’t log” or “AI runs entirely locally” can be misleading because:</p>
+<ul>
+<li><strong>System Operation Requires Metadata</strong>: Even truly “no-log” systems must generate some operational metadata (e.g., request sizes, timing, authentication metadata) to function securely and troubleshoot incidents. Complete absence of logs is often implausible or unsafe.</li>
+<li><strong>Client-Side Metadata Leaks</strong>: Local AI or device-resident services still produce external signals such as network traffic volume, timing, or interaction patterns. These signals can be harvested by network observers or service providers unless fully air-gapped and hardware-verified.</li>
+<li><strong>Third-Party Platforms and Dependencies</strong>: Many services integrating local AI still interact with cloud APIs, content delivery networks, advertisement networks, or telemetry services. Even if content isn’t logged, metadata flows (e.g., timing, device identifiers) can be captured by adjacent systems.</li>
+<li><strong>Cross-Service Aggregation</strong>: Metadata like session identifiers, ad IDs, device fingerprints, and web browser telemetry is routinely shared across services via SDKs, analytics tools, and trackers—effectively harvesting metadata independently of content policy.</li>
+</ul>
+<h3 id="metadata-in-encryption-contexts">Metadata in Encryption Contexts</h3>
+<p>Encryption may protect content but not metadata. Cryptography research has shown that encrypted files and communications often leak metadata through headers, length, and structural markers unless special formats (like PURBs) are used to hide all such information.</p>
+<p>This means that claims of “end-to-end encryption” do not negate metadata collection unless protocols also obfuscate metadata patterns.</p>
+<h2 id="mitigations-and-best-practices">Mitigations and Best Practices</h2>
+<h3 id="technical-controls">Technical Controls</h3>
+<ul>
+<li><strong>Metadata Minimization</strong>: Design systems to collect only what is strictly necessary and anonymize or pseudonymize metadata fields where feasible.</li>
+<li><strong>Metadata Encryption and Padding</strong>: Use advanced formats like PURB to hide metadata leakage in encrypted payloads.</li>
+<li><strong>Differential Privacy for Traffic Patterns</strong>: Systems like Stadium and other research prototypes apply noise and mixing to reduce inference from metadata (e.g., communication patterns).</li>
+<li><strong>Metadata Governance</strong>: Implement cataloging, validation, quality control, and retention policies that align with compliance frameworks and reduce unnecessary exposure.</li>
+</ul>
+<h3 id="organizational-controls">Organizational Controls</h3>
+<ul>
+<li><strong>Privacy Impact Assessments</strong>: Evaluate metadata harvesting programs for legal, ethical, and reputational risk.</li>
+<li><strong>Regulatory Compliance</strong>: Classify metadata attributes under applicable data protection laws and treat personal metadata with appropriate safeguards.</li>
+<li><strong>Transparency and User Trust</strong>: Clearly communicate what metadata is collected, how it is used, and how long it is retained.</li>
+</ul>
+<h2 id="why-vpns-often-create-a-false-sense-of-security-raw-data-vs-metadata">Why VPNs Often Create a False Sense of Security: Raw Data vs. Metadata</h2>
+<p>Virtual Private Networks (VPNs) are frequently marketed as comprehensive privacy solutions. In practice, they primarily protect content in transit, not the metadata that governs, surrounds, and contextualizes that content. This distinction is critical to understanding both the real benefits of VPNs and their substantial limitations.</p>
+<h3 id="what-a-vpn-actually-protects">What a VPN Actually Protects</h3>
+<p>A VPN establishes an encrypted tunnel between a client device and a VPN endpoint. This provides several legitimate security benefits:</p>
+<ul>
+<li>Confidentiality of payload data against local network observers <em>(e.g., public Wi-Fi attackers)</em>.</li>
+<li>IP address substitution, obscuring the user’s origin IP from destination services.</li>
+<li>Integrity protection against packet manipulation in transit.</li>
+</ul>
+<p>These protections apply almost exclusively to raw data <em>(the contents of packets)</em>, not to all metadata generated by the session.</p>
+<h3 id="metadata-that-vpns-do-not-eliminate">Metadata That VPNs Do Not Eliminate</h3>
+<p>Even when a VPN is functioning as intended, significant metadata remains exposed or newly centralized:</p>
+<ul>
+<li>Connection metadata: session start/stop times, duration, bandwidth usage, packet counts.</li>
+<li>Traffic shape and timing: burst patterns, request intervals, and flow direction, which enable traffic fingerprinting and correlation attacks.</li>
+<li>Endpoint metadata: the VPN provider sees both the user’s real IP address and the destination IPs.</li>
+<li>Application-layer metadata: DNS requests (if not properly tunneled), SNI fields, certificate metadata, and protocol identifiers.</li>
+</ul>
+<p>Numerous academic studies demonstrate that encrypted traffic can still be classified, profiled, and deanonymized using metadata alone. In other words, what you do can often be inferred without seeing what you said.</p>
+<h3 id="vpns-shift-trust-they-do-not-remove-it">VPNs Shift Trust — They Do Not Remove It</h3>
+<p>A VPN does not eliminate surveillance or data collection; it reassigns trust:</p>
+<ul>
+<li>Without a VPN, metadata is visible to the ISP and local network operators.</li>
+<li>With a VPN, that same metadata is concentrated at the VPN provider.</li>
+</ul>
+<p>This creates a single, high-value aggregation point for metadata harvesting. Even providers that advertise “no logs” typically must retain operational metadata for abuse prevention, capacity planning, DDoS mitigation, and legal compliance. As a result:</p>
+<ul>
+<li>“No content logs” ≠ “no metadata”</li>
+<li>“No logs” ≠ “no correlation possible”</li>
+</ul>
+<p>From a risk perspective, VPNs often centralize metadata rather than reduce it.</p>
+<h3 id="vpns-vs-modern-tracking-and-fingerprinting">VPNs vs. Modern Tracking and Fingerprinting</h3>
+<p>VPNs are largely ineffective against:</p>
+<ul>
+<li>Browser fingerprinting (fonts, canvas, WebGL, hardware features)</li>
+<li>Account-based tracking (logged-in services, identity federation)</li>
+<li>Cross-device correlation (shared credentials, behavioral similarity)</li>
+<li>Telemetry embedded in applications and SDKs</li>
+</ul>
+<p>In these cases, metadata harvesting occurs above the network layer. The VPN tunnel becomes irrelevant once identifiers and behavioral metadata are voluntarily emitted by the application or browser itself.</p>
+<h3 id="when-vpns-do-improve-privacy">When VPNs Do Improve Privacy</h3>
+<p>Despite their limitations, VPNs can still play a meaningful role when used correctly and with realistic expectations:</p>
+<ul>
+<li>Protection against local adversaries, such as hostile Wi-Fi environments or ISP-level inspection.</li>
+<li>Jurisdictional risk reduction, when carefully selecting providers under favorable legal regimes.</li>
+<li>IP-based unlinkability, reducing basic location inference and coarse-grained tracking.</li>
+</ul>
+<p>However, these benefits are incremental, not absolute.</p>
+<h3 id="why-vpn-marketing-and-reality-diverge">Why VPN Marketing and Reality Diverge</h3>
+<p>VPN marketing often conflates three distinct concepts:</p>
+<ul>
+<li>Encryption</li>
+<li>Anonymity</li>
+<li>Privacy</li>
+</ul>
+<p>VPNs reliably provide the first, inconsistently contribute to the second, and only partially support the third. Metadata harvesting exploits this gap. Even perfectly encrypted tunnels still emit rich, analyzable metadata that can be harvested, aggregated, and correlated across systems.</p>
+<h3 id="risk-based-takeaway">Risk-Based Takeaway</h3>
+<p>From a security and risk analysis perspective:</p>
+<ul>
+<li>VPNs reduce certain exposure vectors</li>
+<li>VPNs do not meaningfully prevent metadata harvesting</li>
+<li>VPNs may increase centralized metadata risk</li>
+<li>VPNs should be treated as a tactical control, not a strategic privacy solution</li>
+</ul>
+<p>Effective privacy protection requires layered defenses: metadata minimization, application hardening, traffic analysis resistance, identity separation, and strong governance—not reliance on a single network abstraction.</p>
+<h2 id="raw-data-vs-metadata-protection-by-technology">Raw Data vs. Metadata Protection by Technology</h2>
+<table>
+<thead>
+<tr>
+<th>Technology</th>
+<th>Protects Raw Content</th>
+<th>Hides Source IP</th>
+<th>Hides Destination</th>
+<th>Limits Traffic Analysis</th>
+<th>Reduces Metadata Harvesting</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VPN</td>
+<td>Yes (in transit)</td>
+<td>Partial</td>
+<td>No</td>
+<td>Minimal</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>Tor (Onion Routing)</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Moderate</td>
+<td>Moderate–High</td>
+</tr>
+<tr>
+<td>Mix Networks</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>High</td>
+<td>High</td>
+</tr>
+<tr>
+<td>Local-Only AI (Offline)</td>
+<td>Yes</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>High (if truly isolated)</td>
+</tr>
+<tr>
+<td>Encrypted App w/ Telemetry</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td>Low</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>End-to-End Encryption (E2EE)</td>
+<td>Yes</td>
+<td>Partial</td>
+<td>No</td>
+<td>Low</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>Air-gapped System</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Very High</td>
+<td>Very High</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">Key Insight</p>
+<p>Most consumer tools focus on content confidentiality. Metadata protection requires <strong>traffic shaping</strong>, <strong>delay</strong>, <strong>mixing</strong>, or <strong>isolation</strong>, which VPNs do not provide.</p>
+</div>
+<h2 id="metadata-visibility-by-observer">Metadata Visibility by Observer</h2>
+<table>
+<thead>
+<tr>
+<th>Observer</th>
+<th>No VPN</th>
+<th>VPN</th>
+<th>Tor</th>
+<th>Local-Only / Offline</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ISP</td>
+<td>Full metadata visibility</td>
+<td>Sees VPN usage + timing</td>
+<td>Sees Tor usage + timing</td>
+<td>None</td>
+</tr>
+<tr>
+<td>VPN Provider</td>
+<td>N/A</td>
+<td>Full session metadata</td>
+<td>N/A</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Destination Service</td>
+<td>Full IP + behavior metadata</td>
+<td>Sees VPN IP + behavior</td>
+<td>Sees Tor exit node</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Application Vendor</td>
+<td>Full telemetry</td>
+<td>Full telemetry</td>
+<td>Full telemetry</td>
+<td>Limited or none</td>
+</tr>
+<tr>
+<td>Ad/Analytics SDKs</td>
+<td>Full identifiers</td>
+<td>Full identifiers</td>
+<td>Full identifiers</td>
+<td>None</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">Key Insight</p>
+<p>VPNs <strong>move metadata exposure</strong>, they do not eliminate it. Application-level metadata is unaffected.</p>
+</div>
+<h2 id="privacy-claims-vs-reality">Privacy Claims vs. Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>What It Usually Means</th>
+<th>What Still Leaks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>“We don’t log”</td>
+<td>No content stored</td>
+<td>Timing, volume, abuse logs, auth metadata</td>
+</tr>
+<tr>
+<td>“AI runs locally”</td>
+<td>Model inference is local</td>
+<td>App telemetry, OS events, network signals</td>
+</tr>
+<tr>
+<td>“End-to-end encrypted”</td>
+<td>Payload encrypted</td>
+<td>Social graph, message timing, frequency</td>
+</tr>
+<tr>
+<td>“Anonymous browsing”</td>
+<td>IP masked</td>
+<td>Fingerprints, behavior, accounts</td>
+</tr>
+<tr>
+<td>“VPN = privacy”</td>
+<td>Encrypted tunnel</td>
+<td>Centralized metadata, traffic patterns</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">Key Insight</p>
+<p>Most privacy claims <strong>omit metadata scope</strong>, either intentionally or due to poor threat modeling.</p>
+</div>
+<h2 id="vpns-benefits-vs-risks">VPNs — Benefits vs. Risks</h2>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Benefit</th>
+<th>Risk</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Network Security</td>
+<td>Protects against local sniffing</td>
+<td>Creates single metadata aggregation point</td>
+</tr>
+<tr>
+<td>Privacy</td>
+<td>Hides IP from destinations</td>
+<td>VPN sees everything</td>
+</tr>
+<tr>
+<td>Compliance</td>
+<td>Helps with insecure networks</td>
+<td>Provider jurisdiction risk</td>
+</tr>
+<tr>
+<td>Surveillance Resistance</td>
+<td>Stops casual inspection</td>
+<td>Vulnerable to correlation attacks</td>
+</tr>
+<tr>
+<td>User Trust Model</td>
+<td>Simple</td>
+<td>Misplaced confidence</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">Key Insight</p>
+<p>VPNs are <strong>defensive controls</strong>, not privacy architectures.</p>
+</div>
+<h2 id="threat-model-alignment">Threat Model Alignment</h2>
+<table>
+<thead>
+<tr>
+<th>Threat Actor</th>
+<th>VPN Effective</th>
+<th>Tor Effective</th>
+<th>Mix Network Effective</th>
+<th>Local-Only Effective</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Café Wi-Fi attacker</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>ISP profiling</td>
+<td>Partial</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Platform surveillance</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Partial</td>
+</tr>
+<tr>
+<td>Nation-state correlation</td>
+<td>No</td>
+<td>Partial</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Advertising ecosystem</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">Key Insight</p>
+<p>Most real-world privacy loss occurs above the network layer, where VPNs offer no protection.</p>
+</div>
+<h2 id="charts">Charts</h2>
+<h3 id="data-exposure-stack-raw-data-vs-metadata">Data Exposure Stack: Raw Data vs Metadata</h3>
+<p>Show why encryption/VPNs protect payloads but not metadata.</p>
+<pre class="mermaid"><code>flowchart LR
+    L5["Behavioral Metadata&lt;br/&gt;(patterns, inference, profiling)"]
+    L4["Application Telemetry&lt;br/&gt;(IDs, analytics, SDKs)"]
+    L3["Network Metadata&lt;br/&gt;(timing, size, endpoints)"]
+    L2["Encrypted Payload&lt;br/&gt;(content)"]
+    L1["Transport Security&lt;br/&gt;(TLS / VPN)"]
+
+    L5 --&gt; L4 --&gt; L3 --&gt; L2 --&gt; L1</code></pre>
+<div class="admonition tip">
+<p class="admonition-title">Interpretation</p>
+<p>Privacy risk increases up the stack, while most tools only protect the bottom layers.</p>
+</div>
+<h3 id="observer-visibility-matrix-heatmap-style-table">Observer Visibility Matrix (Heatmap-Style Table)</h3>
+<p>Show who can see metadata under different technologies.</p>
+<pre class="mermaid"><code>flowchart TB
+    T["Observer Visibility by Technology"]
+
+    T --&gt; ISP["ISP&lt;br/&gt;• No VPN: High&lt;br/&gt;• VPN: Partial&lt;br/&gt;• Tor: Partial"]
+    T --&gt; VPNP["VPN Provider&lt;br/&gt;• VPN: High"]
+    T --&gt; DEST["Destination Service&lt;br/&gt;• VPN: High&lt;br/&gt;• Tor: Partial"]
+    T --&gt; APP["Application Vendor&lt;br/&gt;• Always High"]
+    T --&gt; ADS["Ad / Analytics SDKs&lt;br/&gt;• Always High"]</code></pre>
+<div class="admonition tip">
+<p class="admonition-title">Interpretation</p>
+<p>VPNs shift metadata visibility; they do not eliminate it.</p>
+</div>
+<h3 id="metadata-leakage-despite-encryption-end-to-end-flow">Metadata Leakage Despite Encryption (End-to-End Flow)</h3>
+<p>Show where metadata is generated and harvested.</p>
+<pre class="mermaid"><code>flowchart LR
+    U[User]
+    A["Application&lt;br/&gt;(telemetry, identifiers)"]
+    O["Operating System&lt;br/&gt;(device &amp; process metadata)"]
+    N["Network&lt;br/&gt;(timing, volume, routing)"]
+    V["VPN Tunnel&lt;br/&gt;(session metadata)"]
+    D["Destination Service&lt;br/&gt;(behavior, fingerprinting)"]
+
+    U --&gt; A --&gt; O --&gt; N --&gt; V --&gt; D</code></pre>
+<div class="admonition tip">
+<p class="admonition-title">Interpretation</p>
+<p>Even with encryption, metadata is emitted at every layer.</p>
+</div>
+<h3 id="privacy-claims-vs-reality-conceptual-comparison">Privacy Claims vs Reality (Conceptual Comparison)</h3>
+<p>Contrast marketing claims with actual protection.</p>
+<pre class="mermaid"><code>flowchart TB
+    CLAIMS["Common Privacy Claims"]
+    CONTENT["Strong Content Protection"]
+    META["Weak or No Metadata Protection"]
+
+    CLAIMS --&gt;|"VPN"| CONTENT
+    CLAIMS --&gt;|"End-to-End Encryption"| CONTENT
+    CLAIMS --&gt;|"Local AI"| CONTENT
+
+    CLAIMS --&gt; META</code></pre>
+<div class="admonition tip">
+<p class="admonition-title">Interpretation</p>
+<p>Most claims emphasize content confidentiality, not metadata risk.</p>
+</div>
+<h3 id="metadata-aggregation-risk-mosaic-effect">Metadata Aggregation Risk (Mosaic Effect)</h3>
+<p>Illustrate non-linear re-identification risk.</p>
+<pre class="mermaid"><code>flowchart LR
+    S1["Single Metadata Source&lt;br/&gt;(Low Risk)"]
+    S2["Two Metadata Sources"]
+    S3["Multiple Sources"]
+    S4["Aggregated Profile&lt;br/&gt;(High Re-identification Risk)"]
+
+    S1 --&gt; S2 --&gt; S3 --&gt; S4</code></pre>
+<div class="admonition tip">
+<p class="admonition-title">Interpretation</p>
+<p>Risk compounds as metadata sources are combined.</p>
+</div>
+<h3 id="when-vpns-help-vs-hurt-decision-quadrant">When VPNs Help vs Hurt (Decision Quadrant)</h3>
+<p>Encourage risk-based thinking.</p>
+<pre class="mermaid"><code>flowchart LR
+    Q1["VPN Helps&lt;br/&gt;• Public Wi-Fi&lt;br/&gt;• Local attackers"]
+    Q2["Limited Benefit&lt;br/&gt;• ISP avoidance"]
+    Q3["False Sense of Security&lt;br/&gt;• Platform surveillance"]
+    Q4["Ineffective&lt;br/&gt;• Nation-state correlation"]
+
+    Q1 --&gt; Q2 --&gt; Q3 --&gt; Q4</code></pre>
+<div class="admonition tip">
+<p class="admonition-title">Interpretation</p>
+<p>VPNs are effective only in narrow threat models.</p>
+</div>
+<h2 id="conclusion">Conclusion</h2>
+<p>Metadata harvesting is a powerful enabler in information discovery, analytics, and operational efficiency—supporting everything from scholarly repositories to enterprise data governance. However, the same processes enable privacy exposure, profiling, inference attacks, and regulatory risk when uncontrolled.</p>
+<p>Claims of “no logging” or “local AI” are insufficient defenses against metadata harvesting because they often overlook ancillary channels and ecosystem interactions where metadata is generated, aggregated, and shared. Robust security requires not just content encryption or narrow promises, but comprehensive metadata governance and privacy engineering.</p>
+<ul>
+<li>VPNs protect data, not behavior</li>
+<li>Metadata is the primary privacy risk vector</li>
+<li>Most “privacy” tools fail due to metadata leakage</li>
+<li>True privacy requires layered controls, not a single product</li>
+</ul>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><strong>Open Archives Initiative Protocol for Metadata Harvesting (OAI-PMH)</strong>: A technical standard used by digital libraries and repositories to expose structured metadata that can be harvested by aggregators and indexing services.<ul>
+<li>URL: <a href="https://en.wikipedia.org/wiki/Open_Archives_Initiative_Protocol_for_Metadata_Harvesting">https://en.wikipedia.org/wiki/Open_Archives_Initiative_Protocol_for_Metadata_Harvesting</a></li>
+</ul>
+</li>
+<li><strong>CORE: A Global Aggregation Service for Open Access Papers</strong>: Research paper on large-scale metadata harvesting across institutional repositories, illustrating how metadata can be systematically collected and analyzed at scale.<ul>
+<li>URL: <a href="https://www.nature.com/articles/s41597-023-02208-w">https://www.nature.com/articles/s41597-023-02208-w</a></li>
+</ul>
+</li>
+<li><strong>“You Are Your Metadata: Identification and Obfuscation of Social Media Users Using Metadata Information”</strong>: Peer-reviewed research using Twitter metadata to show that metadata alone can identify users with high accuracy (~96.7%), underscoring that metadata is not non-sensitive.<ul>
+<li>URL: <a href="https://arxiv.org/abs/1803.10133">https://arxiv.org/abs/1803.10133</a></li>
+</ul>
+</li>
+<li><strong>“Please Forget Where I Was Last Summer: The Privacy Risks of Public Location (Meta)Data”</strong>: Demonstrates how location metadata (e.g., GPS) can be used to de-anonymize users and infer sensitive personal information.<ul>
+<li>URL: <a href="https://arxiv.org/abs/1901.00897">https://arxiv.org/abs/1901.00897</a></li>
+</ul>
+</li>
+<li><strong>Rethinking Privacy in Machine Learning Pipelines from an Information Flow Control Perspective</strong>: Highlights that many ML privacy frameworks ignore metadata, which can still enable inference attacks.</li>
+<li>URL: <a href="https://arxiv.org/abs/2311.15792">https://arxiv.org/abs/2311.15792</a></li>
+<li><strong>Trajectory Recovery From Ash: User Privacy Is NOT Preserved in Aggregated Mobility Data</strong>: Shows how even aggregated metadata can be used to recover individual movement patterns and real-world sensitive information.<ul>
+<li>URL: <a href="https://arxiv.org/abs/1702.06270">https://arxiv.org/abs/1702.06270</a></li>
+</ul>
+</li>
+<li><strong>USENIX Security: How and Why People Use Virtual Private Networks</strong>: Empirical study on VPN use and risk; discusses real metadata leak risks (IPv6, DNS leaks, trackers) and misperceptions about VPN privacy guarantees.<ul>
+<li>URL: <a href="https://www.usenix.org/system/files/sec22-dutkowska-zuk.pdf">https://www.usenix.org/system/files/sec22-dutkowska-zuk.pdf</a></li>
+</ul>
+</li>
+<li><strong>“What and Who VPN Providers Claim to Shield Consumers …” (ACM Library)</strong>: Recent (2025) academic article analyzing privacy and security claims by consumer VPN providers, important for critiquing “no logs” and privacy promises.<ul>
+<li>URL: <a href="https://dl.acm.org/doi/full/10.1145/3706598.3713980">https://dl.acm.org/doi/full/10.1145/3706598.3713980</a></li>
+</ul>
+</li>
+<li><strong>Leaking VPN Client Traffic by Abusing Routing Tables</strong>: Technical research demonstrating how VPN clients can inadvertently leak clear traffic despite encryption—relevant for metadata exposure.<ul>
+<li>URL: <a href="https://www.usenix.org/system/files/usenixsecurity23-xue.pdf">https://www.usenix.org/system/files/usenixsecurity23-xue.pdf</a></li>
+</ul>
+</li>
+<li><strong>Michigan Engineering News: Are VPNs Really the Answer?</strong>: Coverage of academic research confirming that VPNs alone often do not provide comprehensive privacy protection.<ul>
+<li>URL: <a href="https://news.engin.umich.edu/2023/02/are-vpns-really-the-answer/">https://news.engin.umich.edu/2023/02/are-vpns-really-the-answer/</a></li>
+</ul>
+</li>
+<li><strong>Mosaic Effect (Wikipedia)</strong>: Standard reference explaining how combining multiple seemingly innocuous pieces of data—including metadata—can result in sensitive inferences.<ul>
+<li>URL: <a href="https://en.wikipedia.org/wiki/Mosaic_effect">https://en.wikipedia.org/wiki/Mosaic_effect</a></li>
+</ul>
+</li>
+<li><strong>Privacy Risks in Metaverse and Telemetry Metadata</strong>: eXtended Reality Safety Initiative talk on telemetry/behavioral metadata in VR/AR environments.<ul>
+<li>URL: <a href="https://rdi.berkeley.edu/metaverse/metadata/">https://rdi.berkeley.edu/metaverse/metadata/</a></li>
+</ul>
+</li>
+<li><strong>Metadata Standards for Image/Media Files (ExifTool)</strong>: useful for real-world file metadata examples.<ul>
+<li>URL: <a href="https://en.wikipedia.org/wiki/ExifTool">https://en.wikipedia.org/wiki/ExifTool</a></li>
+</ul>
+</li>
+<li><strong>Metadata harvesting protocols</strong>: “The Open Archives Initiative Protocol for Metadata Harvesting (OAI-PMH) is a widely adopted standard for exposing structured metadata across repositories” (see OAI-PMH).</li>
+<li><strong>Privacy re-identification risks</strong>: “Academic research shows that metadata alone can uniquely identify users with high accuracy” (Perez et al., 2018).</li>
+<li><strong>VPN metadata leakage</strong>: “Empirical analysis confirms that popular VPNs can leak traffic and metadata, and users often misunderstand their privacy properties.”</li>
+<li><strong>Mosaic effect</strong>: “The mosaic effect demonstrates how metadata from disparate sources can be recombined to reveal sensitive information.”</li>
+</ul>
+
+
+
+
+
+
+
+  
+    
+  
+  
+    
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="May 25, 2026 19:15:38 UTC"><span class="timeago" datetime="2026-05-25T19:15:38+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="May 25, 2026 19:15:38 UTC">2026-05-25</span>
+  </span>
+
+    
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Created">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="May 25, 2026 19:15:38 UTC"><span class="timeago" datetime="2026-05-25T19:15:38+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="May 25, 2026 19:15:38 UTC">2026-05-25</span>
+  </span>
+
+    
+    
+      
+  
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Contributors">
+      
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4"/></svg>
+      
+    </span>
+    <nav>
+      
+        <a href="mailto:silentglasses@proton.me">SilentGlasses</a>
+    </nav>
+  </span>
+
+    
+    
+  </aside>
+
+
+
+  
+
+
+
+      
+    </article>
+  </div>
+
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["content.action.view", "content.code.annotate", "content.code.copy", "content.code.select", "content.tabs.link", "navigation.expand", "navigation.indexes", "navigation.instant", "navigation.instant.progress", "navigation.instant.preview", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../../../../js/timeago.min.js"></script>
+      
+        <script src="../../../../../js/timeago_mkdocs_material.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@11/dist/mermaid.esm.min.mjs" type="module"></script>
+      
+        <script src="../../../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
